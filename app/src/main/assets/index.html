@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Global Trio</title>
+<style>
+:root{--bg:#f3f5fa;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e6eaf2;--inp:#f8fafc;--bad:#dc2626;--sec:#eef1f7;--tag:#fef3c7;--tagp:#d1fae5;--tagbad:#fee2e2;--warn:#b45309;
+ --brand:#0f766e;--brand2:#14b8a6;--ac:#0f766e;--btn:#0f766e;--soft:rgba(15,118,110,.12);--ring:rgba(20,184,166,.28);--sh:0 1px 2px rgba(15,23,42,.05),0 10px 28px rgba(15,23,42,.07);--r:18px;color-scheme:light}
+[data-theme=dark]{--bg:#0a1020;--card:#121a2e;--tx:#e8eefc;--mu:#93a4c3;--bd:#1f2b45;--inp:#0e1628;--bad:#f87171;--sec:#1b2640;--tag:#4a3b12;--tagp:#0f3a31;--tagbad:#4c1d1d;--warn:#fbbf24;
+ --sh:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:92px}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.bt{display:flex;flex-direction:column;min-width:0}
+.bt b{font-size:17px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bt small{opacity:.88;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hr{display:flex;align-items:center;gap:8px;flex-shrink:0}.hr small{font-size:11px;background:rgba(255,255,255,.2);padding:4px 9px;border-radius:99px;max-width:116px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lk,#th{width:34px;height:34px;padding:0;margin:0;border-radius:99px;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:none;border:0}
+.logo{width:38px;height:38px;border-radius:12px;object-fit:cover;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;border:2px solid rgba(255,255,255,.55);overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:cover}
+main{padding:14px 14px 4px;max-width:720px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:14px;box-shadow:var(--sh)}
+.card>b:first-child{font-size:15px;font-weight:700}
+label{display:block;font-size:12px;font-weight:600;color:var(--mu);margin:10px 0 4px}
+input,select,button,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--bd);border-radius:12px;font:inherit;background:var(--inp);color:var(--tx);outline:none;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+button{background:linear-gradient(135deg,var(--btn),var(--brand2));color:#fff;border:0;font-weight:700;margin-top:10px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.16);transition:transform .08s}
+button:active{transform:scale(.98)}
+button.sec{background:var(--sec);color:var(--tx);box-shadow:none;border:1.5px solid var(--bd)}
+button.sm{width:auto;padding:6px 12px;margin:0;font-size:12px;border-radius:99px;box-shadow:none}
+.row{display:flex;gap:8px}.row>*{flex:1}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--card);border-top:1px solid var(--bd);box-shadow:0 -6px 24px rgba(15,23,42,.08);padding:4px 4px calc(6px + env(safe-area-inset-bottom))}
+nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px 2px;color:var(--mu);font-size:11px;font-weight:700;position:relative;text-decoration:none}
+nav a .i{display:flex;padding:5px 16px;border-radius:99px;transition:background .18s,transform .18s}
+nav a.on{color:var(--ac)}nav a.on .i{background:var(--soft);transform:translateY(-1px)}
+nav a[data-badge="1"] .i::after{content:'';position:absolute;top:5px;left:calc(50% + 8px);width:9px;height:9px;border-radius:99px;background:var(--bad);border:2px solid var(--card)}
+.ic{display:block}
+.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}.item:last-child{border:0}
+.who{display:flex;gap:10px;min-width:0;flex:1;align-items:flex-start}.who>div{min-width:0}
+.av{width:38px;height:38px;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;flex-shrink:0}
+.mu{color:var(--mu);font-size:12px}.ntxt{white-space:pre-wrap;word-break:break-word;margin:4px 0}
+.tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--tag);color:var(--tx);display:inline-block}.tag.p{background:var(--tagp)}.tag.bad{background:var(--tagbad)}.tag.warnt{background:var(--tag)}
+.acts{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.acts input{flex:1;min-width:0}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:7px 4px;text-align:right;border-bottom:1px solid var(--bd)}th:first-child,td:first-child{text-align:left}th{color:var(--mu);font-weight:700}
+.sc{overflow-x:auto}
+.ico{width:30px;height:30px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--soft);color:var(--ac);flex-shrink:0}
+.hero{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 14px 30px rgba(0,0,0,.2);position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:99px;background:rgba(255,255,255,.12)}
+.hero small{opacity:.9}.hero .big{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;margin:2px 0}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;box-shadow:var(--sh)}
+.kpi .kl{font-size:11px;color:var(--mu);font-weight:700;display:flex;gap:8px;align-items:center}.kpi .kv{font-size:20px;font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums}.kpi .ks{font-size:11px;color:var(--mu)}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.qa button{margin:0;padding:12px 4px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:7px;background:var(--card);color:var(--tx);border:1px solid var(--bd);box-shadow:var(--sh)}
+.qa .ico{width:38px;height:38px;border-radius:13px}
+.rowbtn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin:0 0 8px;padding:12px;background:var(--card);color:var(--tx);border:1px solid var(--bd);box-shadow:none;border-radius:14px;font-weight:600}
+.rowbtn span:nth-child(2){flex:1}.rowbtn .chev{color:var(--mu)}
+.sw{width:44px;height:44px;border-radius:14px;border:3px solid transparent;margin:0;padding:0;box-shadow:none}.sw.on{border-color:var(--tx)}
+.sws{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.dots{display:flex;gap:6px;justify-content:center;margin:6px 0 16px}.dots span{width:8px;height:8px;border-radius:99px;background:var(--bd)}.dots span.on{background:var(--brand);width:24px}
+.empty{text-align:center;color:var(--mu);padding:18px 8px}
+#setup{position:fixed;inset:0;z-index:58;background:var(--bg);display:none;overflow:auto}.wz{max-width:480px;margin:0 auto;padding:22px 16px 40px}
+#msg{position:fixed;top:64px;left:12px;right:12px;background:#111827;color:#fff;padding:11px 14px;border-radius:14px;display:none;z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.35);font-weight:600}
+#ask{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:55;display:none;align-items:center;justify-content:center;padding:20px}
+#lock{position:fixed;inset:0;background:var(--bg);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}.lkb{width:100%;max-width:320px;text-align:center}.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.kp button{margin:0;padding:16px;font-size:20px}
+#upd{position:sticky;top:62px;z-index:19;padding:8px 12px 0}
+.updbar{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:16px;padding:8px 10px;box-shadow:0 8px 20px rgba(0,0,0,.22)}.updbar .tx{flex:1;min-width:0}.updbar .tx b,.updbar .tx div{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.updbar .ico{background:rgba(255,255,255,.22);color:#fff}.updbar button{margin:0}.updbar button.sec{background:rgba(255,255,255,.2);color:#fff;border:0}.updbar b{font-size:14px}
+textarea{resize:vertical;font-family:inherit}
+input[type=file]{padding:8px;font-size:13px;color:var(--mu)}
+input[type=file]::file-selector-button{border:0;background:linear-gradient(135deg,var(--btn),var(--brand2));color:#fff;border-radius:10px;padding:8px 14px;margin-right:10px;font:inherit;font-weight:700;cursor:pointer}
+
+/* ---- Animations ---- */
+@keyframes gtUp{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes gtFade{from{opacity:0}to{opacity:1}}
+@keyframes gtPop{0%{opacity:0;transform:scale(.88) translateY(10px)}70%{transform:scale(1.02)}100%{opacity:1;transform:none}}
+@keyframes gtDrop{from{opacity:0;transform:translateY(-16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes gtSlideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes gtBounce{0%,100%{transform:translateY(-1px) scale(1)}40%{transform:translateY(-4px) scale(1.12)}}
+@keyframes gtPulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.6)}70%{box-shadow:0 0 0 7px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+@keyframes gtShine{from{background-position:0% 50%}to{background-position:100% 50%}}
+@keyframes gtFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+header{background-size:200% 200%;animation:gtShine 8s ease-in-out infinite alternate}
+.logo{animation:gtFloat 4s ease-in-out infinite}
+#v>.card,main>.card,.wz>.card{animation:gtUp .42s cubic-bezier(.2,.8,.2,1) both}
+#v>.card:nth-child(2){animation-delay:.06s}#v>.card:nth-child(3){animation-delay:.12s}#v>.card:nth-child(4){animation-delay:.18s}#v>.card:nth-child(5){animation-delay:.24s}#v>.card:nth-child(n+6){animation-delay:.3s}
+.item{animation:gtSlideIn .35s ease both}
+.item:nth-child(2){animation-delay:.03s}.item:nth-child(3){animation-delay:.06s}.item:nth-child(4){animation-delay:.09s}.item:nth-child(5){animation-delay:.12s}.item:nth-child(n+6){animation-delay:.15s}
+.card{transition:transform .2s ease,box-shadow .2s ease}.card:active{transform:scale(.995)}
+button{transition:transform .12s ease,filter .15s ease,box-shadow .15s ease}button:active{transform:scale(.96);filter:brightness(.95)}
+nav a.on .i{animation:gtBounce .4s ease}
+nav a[data-badge="1"] .i::after{animation:gtPulse 1.8s infinite}
+.tag{animation:gtFade .4s ease both}
+#ask{animation:gtFade .2s ease}#ask>.card{animation:gtPop .35s cubic-bezier(.2,.9,.3,1.2) both}
+#msg{animation:gtDrop .35s cubic-bezier(.2,.9,.3,1.2)}
+#lock .lkb,#setup .wz{animation:gtPop .45s ease both}
+.kp button:active{transform:scale(.9)}
+.updbar{animation:gtDrop .4s ease both}
+.av{animation:gtPop .4s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.phs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.phs img{width:64px;height:64px;object-fit:cover;border-radius:12px;border:1.5px solid var(--bd);animation:gtPop .35s ease both;cursor:pointer}
+.ph{position:relative}.ph b{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:99px;background:var(--bad);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.phin{display:none}#phv{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:95;display:flex;align-items:center;justify-content:center;padding:14px;animation:gtFade .2s ease}#phv img{max-width:100%;max-height:100%;border-radius:12px;animation:gtPop .3s ease}
+#wn{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:56;display:flex;align-items:flex-end;justify-content:center;padding:12px;animation:gtFade .2s ease}
+#wn>.card{width:100%;max-width:480px;max-height:80vh;overflow:auto;margin:0;animation:gtUp .35s cubic-bezier(.2,.8,.2,1) both}
+#wn .wi{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}#wn .wi:last-of-type{border:0}#wn .wi span:first-child{font-size:18px}
+</style></head><body>
+<header><span class="brand"><span class="logo" id="logo">GT</span><span class="bt"><b id="bname">Global Trio</b><small id="btag"></small></span></span><span class="hr"><button id="lk" title="Lock the app" style="display:none"></button><button id="th" title="Light / dark"></button><small id="sync">not synced</small></span></header><div id="upd" style="display:none"></div>
+<div id="setup"></div><div id="ask"></div><div id="lock"></div><div id="msg"></div><main id="v"></main>
+<nav id="nav"></nav>
+<script>
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const BASE_CATS={"Avroy Shlein Products":["Sprays","Roll-Ons","Perfumes"],"Inuka Products":["Sprays","Roll-Ons","Perfumes"],"Shipping":["N/A (Shipping)","Temu","Amazon","P-Plug","Ebay","Shein","Dischem","TakeAlot"]};
+const K='gt_state_v1';
+let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+S=S||{products:[],sales:[],cats:[],exps:[],slog:[],alog:[],notes:[],prof:[],set:{url:'',key:'',year:new Date().getFullYear(),since:0}};
+S.cats=S.cats||[];S.exps=S.exps||[];S.slog=S.slog||[];S.alog=S.alog||[];S.notes=S.notes||[];S.prof=S.prof||[];S.xl=S.xl||{};
+const TN=['products','sales','cats','exps','slog','alog','notes','prof'],TBL=()=>TN.map(n=>S[n]);
+S.set.firstRun=S.set.firstRun||Date.now();
+const isDark=()=>{const t=S.set.theme||'auto';return t=='dark'||(t!='light'&&!!(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches))};
+const ICONS={
+ home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+ sales:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+ users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.8-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c3 .2 5 2.4 5 5.8"/>',
+ box:'<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>',
+ notes:'<path d="M5 3h11l3 3v15H5z"/><path d="M8 9h8M8 13h8M8 17h5"/>',
+ more:'<rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>',
+ moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+ lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ bell:'<path d="M6 17v-6a6 6 0 0 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/>',
+ chart:'<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',
+ wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7l12-3v3"/><circle cx="16.5" cy="13.5" r="1.2"/>',
+ tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>',
+ biz:'<path d="M3 21h18M5 21V8l7-4 7 4v13"/><path d="M9 21v-5h6v5M9 11h6"/>',
+ chev:'<path d="M9 6l6 6-6 6"/>',
+ down:'<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>'};
+const ic=(n,sz)=>`<svg class="ic" width="${sz||22}" height="${sz||22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]||''}</svg>`;
+const PALETTES={teal:['#0f766e','#14b8a6','#2dd4bf','Teal'],blue:['#1d4ed8','#3b82f6','#60a5fa','Blue'],purple:['#6d28d9','#8b5cf6','#a78bfa','Purple'],emerald:['#047857','#10b981','#34d399','Emerald'],orange:['#c2410c','#f97316','#fb923c','Orange'],rose:['#be123c','#f43f5e','#fb7185','Rose'],slate:['#334155','#64748b','#94a3b8','Slate']};
+const BIZ_DEFAULT={name:'Global Trio',upd:'',tag:'',owner:'',phone:'',email:'',address:'',cur:'$',color:'teal',logo:'',footer:'Thank you for your business!',done:false,skipped:false};
+function biz(){const r=(S.prof||[]).find(x=>x.id=='biz'&&!x.deleted);return Object.assign({},BIZ_DEFAULT,r||{})}
+const bizName=()=>String(biz().name||'').trim()||'Global Trio';
+const cur=()=>biz().cur||'$';
+const initials=n=>String(n||'?').trim().split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';
+const avHue=n=>{let h=7;for(const ch of String(n||''))h=(h*31+ch.charCodeAt(0))%360;return h};
+const avatar=n=>`<span class="av" style="background:hsl(${avHue(n)},52%,${isDark()?'38%':'46%'})">${esc(initials(n))}</span>`;
+function setBrandVars(color){const pal=PALETTES[color]||PALETTES.teal,d=isDark(),el=document.documentElement;
+ if(el&&el.style&&el.style.setProperty){const n=parseInt(pal[0].slice(1),16),r=n>>16&255,g=n>>8&255,b=n&255,set=(k,v)=>el.style.setProperty(k,v);
+  set('--brand',pal[0]);set('--brand2',pal[1]);set('--btn',pal[0]);set('--ac',d?pal[2]:pal[0]);set('--soft','rgba('+r+','+g+','+b+','+(d?.24:.12)+')');set('--ring','rgba('+r+','+g+','+b+',.3)')}}
+function applyBrand(){const b=biz();setBrandVars(b.color);
+ const lg=document.querySelector('#logo');if(lg)lg.innerHTML=b.logo?`<img alt="" src="${esc(b.logo)}">`:esc(initials(bizName()).slice(0,2));
+ const nm=document.querySelector('#bname');if(nm)nm.textContent=bizName();const tg=document.querySelector('#btag');if(tg)tg.textContent=b.tag||'';
+ try{document.title=bizName()}catch(e){}closeSetupIfDone()}
+function applyTheme(){const d=isDark(),el=document.documentElement;if(el&&el.setAttribute)el.setAttribute('data-theme',d?'dark':'light');const b=document.querySelector('#th');if(b)b.innerHTML=ic(d?'sun':'moon',18);applyBrand()}
+const save=()=>{if(S.set.dev)TN.forEach(n=>(S[n]||[]).forEach(x=>{if(x.dirty&&!x.dev){x.dev=S.set.dev;x.by=x.by||myName()||undefined}}));try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}if(syncReady&&!busy&&dirtyCount()>0&&syncConfigured())queueSync()};
+let syncReady=false,syncTimer=0,syncAgain=false,syncFails=0,retryTimer=0;
+const $=s=>document.querySelector(s),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const num=x=>parseFloat(x)||0,f2=x=>(Math.round(x*100)/100).toFixed(2);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const mOf=d=>MONTHS[parseInt(d.slice(5,7))-1],yOf=d=>parseInt(d.slice(0,4));
+const toast=t=>{const m=$('#msg');m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2600)};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const live=a=>a.filter(r=>!r.deleted);
+const catMap=()=>{const c={...BASE_CATS};S.cats.filter(x=>!x.deleted).forEach(x=>c[x.name]=x.subs);return c};
+let tab='sales',selMonth=MONTHS[new Date().getMonth()];
+
+function findProd(s){const m=mOf(s.date);return live(S.products).find(p=>p.month==m&&p.category==s.category&&p.sub==s.sub&&p.name==s.product)}
+function calc(s){const p=findProd(s),sell=p?p.sell:num(s.sell),buy=p?p.buy:num(s.buy);return{rev:s.qty*sell,profit:s.qty*(sell-buy),sell}}
+
+const navOf=t=>(['prod','cats','exp','log','set','biz','priv'].includes(t)||(t=='notes'&&role=='owner'))?'more':(t=='sum'?'home':t);
+const allowed=t=>role=='owner'||['sales','cust','stock','notes','priv'].includes(t);
+function render(){if(!allowed(tab))tab='sales';if(tab!='biz'){bz=null;applyBrand()}drawUpd();document.querySelectorAll('nav a').forEach(a=>{a.classList.toggle('on',a.dataset.t==navOf(tab));a.dataset.badge=(a.dataset.t=='more'&&role=='owner'&&(unreadLog()||updPending()))?'1':'0'});({home:vHome,sales:vSales,cust:vCust,stock:vStock,sum:vSum,more:vMore,prod:vProd,cats:vCats,log:vLog,notes:vNotes,biz:vBiz,exp:vExp,set:vSet,priv:vPriv})[tab]()}
+const NAVS=[['home','Home','home'],['sales','Sales','sales'],['cust','Customers','users'],['stock','Stock','box'],['notes','Notes','notes'],['more','More','more']];
+function buildNav(){const n=document.querySelector('#nav');if(n)n.innerHTML=NAVS.map(([t,l,i])=>`<a data-t="${t}"><span class="i">${ic(i,22)}</span><span>${l}</span></a>`).join('')}
+buildNav();
+document.querySelectorAll('nav a').forEach(a=>a.onclick=()=>{tab=a.dataset.t;if(tab!='cust')custOpen='';render();if(window.scrollTo)window.scrollTo(0,0)});
+
+const ckey=n=>String(n||'').trim().toLowerCase().replace(/\s+/g,' ');
+const payTotal=s=>(s.pays||[]).reduce((a,p)=>a+num(p.amt),0);
+function saleMoney(s){const c=calc(s),rev=c.rev,rec=s.status=='Paid Up'?rev:Math.min(rev,payTotal(s));return{rev,received:rec,owed:Math.max(0,rev-rec),profit:c.profit}}
+function normSale(s){if(s.pays&&s.pays.length){const full=payTotal(s)>=calc(s).rev-0.005;s.status=full?'Paid Up':'Credit';s.paidDate=full?(s.paidDate||today()):''}}
+function addPayment(s,amt){amt=num(amt);if(amt<=0)return false;s.pays=s.pays||[];s.pays.push({id:uid(),date:today(),amt:Math.round(amt*100)/100});normSale(s);return true}
+function markPaid(s){const left=saleMoney(s).owed;if(left>0){s.pays=s.pays||[];s.pays.push({id:uid(),date:today(),amt:left,auto:1})}s.status='Paid Up';s.paidDate=today()}
+function backToCredit(s){if(s.pays&&s.pays.length)s.pays.pop();s.status='Credit';s.paidDate=''}
+const expMonth=m=>live(S.exps).filter(e=>mOf(e.date)==m&&yOf(e.date)==+S.set.year).reduce((a,e)=>a+num(e.amt),0);
+// ---- Named changes: every change to an EXISTING sale needs a typed name; no name = change revoked + managers alerted ----
+const BADNAMES=['unknown','staff','owner','none','n/a','na','no name','admin','manager','test'];
+function validName(n){n=String(n||'').trim().replace(/\s+/g,' ');return(n.length<2||n.length>40||/^[\d\W_]+$/.test(n)||BADNAMES.includes(n.toLowerCase()))?'':n}
+const saleDesc=s=>{const m=saleMoney(s);return s.customer+' · '+s.product+' ×'+s.qty+' · '+cur()+f2(m.rev)+' · '+s.status+(m.received>0&&m.owed>0.004?' (owes '+cur()+f2(m.owed)+')':'')};
+let askOpen=false;
+function askName(title,detail){return new Promise(res=>{const el=document.querySelector('#ask');
+ if(!el||askOpen){res({name:'',busy:true});return}askOpen=true;
+ const used=[...new Set(live(S.alog).filter(l=>l.kind=='sale'&&l.by&&l.by!='(no name)').map(l=>l.by))].slice(0,8);
+ el.style.display='flex';
+ el.innerHTML=`<div class="card" style="width:100%;max-width:340px;margin:0"><b>${esc(title)}</b><div class="mu" style="margin:6px 0">${esc(detail)}</div>
+ <label>Type your name to confirm</label><input id="asknm" list="askl" autocomplete="off" autocapitalize="words"><datalist id="askl">${used.map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+ <div id="askm" style="color:var(--bad);min-height:18px;font-size:13px;margin-top:4px"></div>
+ <button id="askok">Confirm change</button><button class="sec" id="askno">Cancel - revoke the change</button>
+ <div class="mu" style="margin-top:8px">Without your name the change is NOT made and the other managers are alerted. This closes by itself after 60 seconds.</div></div>`;
+ let t=0;const close=(name,timeout)=>{clearTimeout(t);askOpen=false;el.style.display='none';el.innerHTML='';res({name,timeout:!!timeout})};
+ t=setTimeout(()=>close('',true),60000);
+ document.querySelector('#askok').onclick=()=>{const n=validName(document.querySelector('#asknm').value);if(!n){document.querySelector('#askm').textContent='Enter your real name (at least 2 letters).';return}close(n)};
+ document.querySelector('#askno').onclick=()=>close('')})}
+async function guardSale(ask,apply,doneText){
+ const r=await askName('Who is making this change?',ask);if(r.busy)return false;
+ if(!r.name){logChange('REVOKED - '+(r.timeout?'no name given within 60 seconds':'no name given')+'. Attempted: '+ask,{by:'(no name)',kind:'sale',revoked:true});
+  toast('No name given - change revoked. Other managers have been alerted.');autoSync();return false}
+ apply();logChange(doneText(r.name),{by:r.name,kind:'sale'});return true}
+
+function shrinkPhoto(f){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const m=720,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.6))};im.src=r.result};r.readAsDataURL(f)})}
+function viewPhoto(u){const d=document.createElement('div');d.id='phv';d.innerHTML=`<img src="${u}">`;d.onclick=()=>d.remove();document.body.appendChild(d)}
+let salesF='all',salesQ='',editId='',payFor='';
+function touch(s){normSale(s);s.updatedAt=Date.now();s.dirty=true;save();drawList();autoSync()}
+function drawList(){
+ const box=document.querySelector('#sl');if(!box)return;
+ let L=live(S.sales);const credit=L.filter(x=>x.status=='Credit'),owed=credit.reduce((a,x)=>a+saleMoney(x).owed,0);
+ $('#ow').innerHTML='Outstanding credit: <b>'+cur()+f2(owed)+'</b> from '+credit.length+' sale'+(credit.length==1?'':'s');
+ L=L.filter(x=>(salesF=='all'||x.status==salesF)&&(!salesQ||String(x.customer).toLowerCase().includes(salesQ)))
+  .sort((a,b)=>b.date.localeCompare(a.date)||b.updatedAt-a.updatedAt);
+ box.innerHTML=L.slice(0,(salesF=='all'&&!salesQ)?60:300).map(x=>{const m=saleMoney(x),cr=x.status=='Credit',part=cr&&m.received>0;
+  return`<div class="item"><div class="who">${avatar(x.customer)}<div><b>${esc(x.customer)}</b><div class="mu">${x.date} · ${esc(x.product)} ×${x.qty}${x.phone?' · '+esc(x.phone):''}${part?'<br>Paid '+cur()+f2(m.received)+' · owes '+cur()+f2(m.owed):''}${(x.pays||[]).length?'<br>Payments: '+x.pays.map(p=>''+cur()+f2(p.amt)+' ('+String(p.date).slice(5)+')').join(', '):''}${!cr&&x.paidDate?'<br>Paid on '+esc(x.paidDate):''}</div>${(x.photos||[]).length?`<div class="phs">${x.photos.map(u=>`<img src="${u}" data-pv="1">`).join('')}</div>`:''}</div></div>
+  <div style="text-align:right">${cur()}${f2(m.rev)}<br><span class="tag ${cr?'':'p'}">${part?'Part paid':x.status}</span></div>
+  ${payFor==x.id?`<div class="acts"><input id="pa" type="number" step="0.01" inputmode="decimal" placeholder="Amount received (owes ${cur()}${f2(m.owed)})"><button class="sm" data-psave="${x.id}">Save</button><button class="sec sm" data-pcancel="1">Cancel</button></div>`:''}
+  <div class="acts">${cr?`<button class="sm" data-pay="${x.id}">Add payment</button><button class="sm" data-paid="${x.id}">Mark paid</button>`:`<button class="sec sm" data-credit="${x.id}">Back to credit</button>`}<button class="sec sm" data-edit="${x.id}">Edit</button><button class="sec sm" data-rc="${x.id}">Receipt</button>${role=='owner'?`<button class="sec sm" data-del="${x.id}">Delete</button>`:''}</div></div>`}).join('')||'<div class="mu">Nothing found.</div>';
+ const get=id=>S.sales.find(x=>x.id==id);
+ const on=(sel,key,fn)=>box.querySelectorAll(sel).forEach(b=>b.onclick=()=>fn(get(b.dataset[key]),b));
+ on('[data-paid]','paid',async x=>{const d=saleDesc(x),was=x.status;if(await guardSale('MARK PAID: '+d,()=>markPaid(x),n=>n+' marked the sale PAID: '+d+' (was '+was+')')){toast('Marked as paid');touch(x)}else drawList()});
+ on('[data-credit]','credit',async x=>{const d=saleDesc(x);if(await guardSale('MOVE BACK TO CREDIT: '+d,()=>backToCredit(x),n=>n+' moved the sale back to CREDIT: '+d))touch(x);else drawList()});
+ on('[data-del]','del',async x=>{if(role!='owner')return;const d=saleDesc(x);if(await guardSale('DELETE THE SALE: '+d,()=>{x.deleted=true},n=>n+' DELETED the sale: '+d))touch(x);else drawList()});
+ on('[data-pay]','pay',x=>{payFor=x.id;drawList()});
+ on('[data-psave]','psave',async x=>{const a=num($('#pa').value),o=saleMoney(x).owed;if(a<=0)return toast('Enter the amount received');if(a>o+0.005)return toast('That is more than the balance ('+cur()+f2(o)+')');
+  const d=saleDesc(x);if(await guardSale('PAYMENT of '+cur()+f2(a)+' on '+d,()=>{addPayment(x,a)},n=>n+' recorded a payment of '+cur()+f2(a)+' on '+d+' (balance now '+cur()+f2(saleMoney(x).owed)+')')){payFor='';toast('Payment saved');touch(x)}else{payFor='';drawList()}});
+ box.querySelectorAll('img[data-pv]').forEach(b=>b.onclick=()=>viewPhoto(b.src));
+ box.querySelectorAll('[data-pcancel]').forEach(b=>b.onclick=()=>{payFor='';drawList()});
+ on('[data-edit]','edit',x=>{editId=x.id;payFor='';tab='sales';render();if(window.scrollTo)window.scrollTo(0,0)});
+ on('[data-rc]','rc',x=>sendText(x.phone,receiptText(x)));
+}
+function vSales(){
+ const ed=editId?S.sales.find(x=>x.id==editId&&!x.deleted):null;if(editId&&!ed)editId='';
+ const names=[...customers().values()].map(c=>c.name),hasPays=!!(ed&&ed.pays&&ed.pays.length);
+ $('#v').innerHTML=`<div class="card"><b>${ed?'Edit sale':'New sale'}</b>
+ <label>Date</label><input type="date" id="d" value="${today()}">
+ <label>Customer name</label><input id="cn" placeholder="Customer name" list="cl"><datalist id="cl">${names.map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+ <label>Phone number</label><input id="ph" type="tel">
+ <div class="row"><div><label>Category</label><select id="cat">${Object.keys(catMap()).map(c=>`<option>${c}</option>`).join('')}</select></div>
+ <div><label>Sub-category</label><select id="sub"></select></div></div>
+ <label>Product bought</label><select id="pr"></select>
+ <div class="row"><div><label>Qty</label><input id="q" type="number" min="1" value="1" inputmode="numeric"></div>
+ <div><label>Payment status</label><select id="st" ${hasPays?'disabled':''}><option>Paid Up</option><option>Credit</option></select></div></div>
+ <div id="phbox" style="display:none"><label>Product photos (shipping)</label><div class="row"><button type="button" class="sec" id="phcam" style="margin-top:0">📷 Take photo</button><button type="button" class="sec" id="phgal" style="margin-top:0">🖼️ From gallery</button></div>
+ <input class="phin" type="file" id="phc" accept="image/*" capture="environment"><input class="phin" type="file" id="phg" accept="image/*" multiple><div class="phs" id="phl"></div></div>
+ ${hasPays?'<div class="mu">This sale has payments recorded. Use Add payment / Mark paid on the sale below to change its status.</div>':''}
+ <div class="mu" id="pv"></div><button id="add">${ed?'Update sale':'Save sale'}</button>${ed?'<button class="sec" id="cx">Cancel edit</button>':''}</div>
+ <div class="card"><b>Sales</b>
+ <div class="row"><select id="sf"><option value="all">All sales</option><option value="Credit">Owing (Credit)</option><option value="Paid Up">Paid up</option></select><input id="sq" placeholder="Search customer"></div>
+ <div class="mu" id="ow" style="margin:8px 0"></div><div id="sl"></div></div>`;
+ let photos=ed&&ed.photos?[...ed.photos]:[];
+ const drawPh=()=>{$('#phbox').style.display=$('#cat').value=='Shipping'?'':'none';$('#phl').innerHTML=photos.map((u,i)=>`<div class="ph"><img src="${u}" data-pv="${i}"><b data-px="${i}">×</b></div>`).join('');
+  $('#phl').querySelectorAll('[data-px]').forEach(b=>b.onclick=()=>{photos.splice(+b.dataset.px,1);drawPh()});$('#phl').querySelectorAll('[data-pv]').forEach(b=>b.onclick=()=>viewPhoto(b.src))};
+ const addPh=async fs=>{for(const f of fs){if(photos.length>=6){toast('Up to 6 photos per sale');break}try{photos.push(await shrinkPhoto(f))}catch(e){toast('Could not read that photo')}}drawPh()};
+ $('#phcam').onclick=()=>$('#phc').click();$('#phgal').onclick=()=>$('#phg').click();
+ $('#phc').onchange=e=>{addPh([...e.target.files]);e.target.value=''};$('#phg').onchange=e=>{addPh([...e.target.files]);e.target.value=''};
+ const fill=()=>{ $('#sub').innerHTML=catMap()[$('#cat').value].map(x=>`<option>${x}</option>`).join(''); fillP();drawPh()};
+ const fillP=()=>{const m=mOf($('#d').value||today());const ps=live(S.products).filter(p=>p.month==m&&p.category==$('#cat').value&&p.sub==$('#sub').value);
+  $('#pr').innerHTML=ps.length?ps.map(p=>`<option>${esc(p.name)}</option>`).join(''):'<option value="">(add products for '+m+' first)</option>';prev()};
+ const prev=()=>{const p=live(S.products).find(p=>p.month==mOf($('#d').value)&&p.category==$('#cat').value&&p.sub==$('#sub').value&&p.name==$('#pr').value);
+  const e=stockItems().find(x=>x.k==$('#cat').value+'|'+$('#sub').value+'|'+$('#pr').value),q=num($('#q').value);
+  $('#pv').textContent=p?`Price ${cur()}${f2(p.sell)} each → total ${cur()}${f2(p.sell*q)}`+(e?` · Stock left: ${e.left}${q>e.left+(ed&&ed.product==$('#pr').value?ed.qty:0)?' (not enough stock!)':''}`:''):''};
+ $('#cat').onchange=fill;$('#sub').onchange=fillP;$('#d').onchange=fillP;$('#pr').onchange=prev;$('#q').oninput=prev;fill();
+ $('#cn').onchange=()=>{if($('#ph').value)return;const c=customers().get(ckey($('#cn').value));if(c&&c.phone)$('#ph').value=c.phone};
+ if(ed){$('#d').value=ed.date;$('#cn').value=ed.customer;$('#ph').value=ed.phone||'';$('#cat').value=ed.category;fill();$('#sub').value=ed.sub;fillP();
+  if($('#pr').value!=ed.product)$('#pr').innerHTML+=`<option>${esc(ed.product)}</option>`;
+  $('#pr').value=ed.product;$('#q').value=ed.qty;$('#st').value=ed.status;prev()}
+ $('#add').onclick=async()=>{const cn=$('#cn').value.trim(),pr=$('#pr').value;if(!cn||!pr||num($('#q').value)<=0)return toast('Enter customer, product and qty');
+  const p=live(S.products).find(p=>p.month==mOf($('#d').value)&&p.category==$('#cat').value&&p.sub==$('#sub').value&&p.name==pr),stVal=$('#st').value;
+  const rec={date:$('#d').value,customer:cn,phone:$('#ph').value,category:$('#cat').value,sub:$('#sub').value,product:pr,qty:num($('#q').value),photos:$('#cat').value=='Shipping'?photos:[],sell:p?p.sell:(ed?ed.sell:0),buy:p?p.buy:(ed?ed.buy:0)};
+  const before=snapStock();
+  if(ed){const had=hasPays,next={...rec,status:had?ed.status:stVal};
+   const changes=['date','customer','phone','category','sub','product','qty','status','photos'].filter(k=>k=='photos'?(ed.photos||[]).join()!==(next.photos||[]).join():String(ed[k]==null?'':ed[k])!==String(next[k]==null?'':next[k])).map(k=>k=='photos'?'photos: '+(ed.photos||[]).length+' → '+next.photos.length:k+': '+(ed[k]==null?'':ed[k])+' → '+(next[k]==null?'':next[k]));
+   if(!changes.length){editId='';toast('No changes to save');render();return}
+   const d=saleDesc(ed);
+   const ok=await guardSale('EDIT '+d+'  ['+changes.join('; ')+']',()=>{Object.assign(ed,rec);if(!had){ed.status=stVal;ed.paidDate=ed.status=='Paid Up'?(ed.paidDate||ed.date):''}normSale(ed);ed.updatedAt=Date.now();ed.dirty=true;save()},n=>n+' edited the sale '+d+' → '+changes.join('; '));
+   editId='';if(!ok){render();return}toast('Sale updated');lowAlert(before);render();autoSync();return}
+  S.sales.push({id:uid(),...rec,status:stVal,by:noteBy(),updatedAt:Date.now(),dirty:true});save();toast('Saved');
+  lowAlert(before);render();autoSync()};
+ onb('#cx',()=>{editId='';render()});
+ $('#sf').value=salesF;$('#sq').value=salesQ;
+ $('#sf').onchange=e=>{salesF=e.target.value;drawList()};$('#sq').oninput=e=>{salesQ=e.target.value.trim().toLowerCase();drawList()};
+ drawList();
+}
+
+// ---- Customers, receipts, reminders ----
+
+function customers(){const m=new Map();
+ live(S.sales).forEach(s=>{const k=ckey(s.customer);if(!k)return;let c=m.get(k);
+  if(!c){c={key:k,name:String(s.customer).trim(),phone:'',pd:'',sales:[],total:0,received:0,owed:0,last:''};m.set(k,c)}
+  const mo=saleMoney(s);c.sales.push(s);c.total+=mo.rev;c.received+=mo.received;c.owed+=mo.owed;
+  if(s.date>=c.last){c.last=s.date;c.name=String(s.customer).trim()}
+  if(s.phone&&s.date>=c.pd){c.phone=s.phone;c.pd=s.date}});
+ return m}
+function waNumber(ph){const raw=String(ph||'').trim();let d=raw.replace(/[^0-9]/g,'');if(!d)return'';
+ if(raw.startsWith('+'))return d;if(d.startsWith('00'))return d.slice(2);
+ const cc=String(S.set.cc||'').replace(/\D/g,'');if(cc){if(d.startsWith('0'))d=d.slice(1);if(!d.startsWith(cc))d=cc+d}return d}
+function sendText(phone,text){const n=waNumber(phone),url='https://wa.me/'+n+'?text='+encodeURIComponent(text);
+ if(window.Native){if(n&&Native.openUrl)Native.openUrl(url);else if(Native.shareText)Native.shareText(text);else toast('Sharing works in the Android app only')}
+ else if(window.open)window.open(n?url:'https://wa.me/?text='+encodeURIComponent(text))}
+function callNumber(ph){const d=String(ph||'').replace(/[^0-9+]/g,'');if(!d)return toast('No phone number saved');if(window.Native&&Native.openUrl)Native.openUrl('tel:'+d)}
+function receiptText(s){const m=saleMoney(s),b=biz();return bizName()+' - Receipt'+(b.tag?'\n'+b.tag:'')+(b.phone?'\nTel: '+b.phone:'')+(b.email?'\n'+b.email:'')+(b.address?'\n'+b.address:'')+'\nDate: '+s.date+'\nCustomer: '+s.customer+'\n'+s.product+' x '+s.qty+' @ '+cur()+f2(calc(s).sell)+' = '+cur()+f2(m.rev)+'\n'+(m.owed<0.005?'Status: PAID IN FULL':'Paid: '+cur()+f2(m.received)+'\nBalance owing: '+cur()+f2(m.owed))+'\n'+(b.footer||'Thank you!')}
+function reminderText(c){return 'Hello '+c.name+', this is a friendly reminder from '+bizName()+': you have an outstanding balance of '+cur()+f2(c.owed)+'. Thank you!'}
+function statementText(c){return bizName()+' - Statement for '+c.name+'\n'+c.sales.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(x=>{const m=saleMoney(x);return x.date+'  '+x.product+' x'+x.qty+'  '+cur()+f2(m.rev)+(m.owed>0.004?'  (owes '+cur()+f2(m.owed)+')':'  paid')}).join('\n')+'\nTotal bought: '+cur()+f2(c.total)+'\nPaid: '+cur()+f2(c.received)+'\nBALANCE OWING: '+cur()+f2(c.owed)}
+function payCustomer(key,amt){let left=num(amt),applied=0;const c=customers().get(key);if(!c)return{applied:0,extra:left};
+ c.sales.filter(s=>s.status=='Credit').sort((a,b)=>a.date.localeCompare(b.date)).forEach(s=>{if(left<=0)return;const a=Math.min(saleMoney(s).owed,left);if(a>0.004&&addPayment(s,a)){s.updatedAt=Date.now();s.dirty=true;left-=a;applied+=a}});
+ save();return{applied:Math.round(applied*100)/100,extra:Math.round(left*100)/100}}
+let custQ='',custF='all',custOpen='';
+function drawCust(){const box=document.querySelector('#cl2');if(!box)return;const M=customers();
+ let L=[...M.values()].filter(c=>(custF=='all'||c.owed>0.004)&&(!custQ||c.name.toLowerCase().includes(custQ)||String(c.phone).includes(custQ))).sort((a,b)=>(b.owed-a.owed)||a.name.localeCompare(b.name)).slice(0,200);
+ box.innerHTML=L.map((c,i)=>`<div class="item" data-c="${i}" style="cursor:pointer"><div class="who">${avatar(c.name)}<div><b>${esc(c.name)}</b><div class="mu">${esc(c.phone||'no phone')} · ${c.sales.length} purchase${c.sales.length==1?'':'s'} · last ${c.last}</div></div></div><div style="text-align:right">${c.owed>0.004?`<b style="color:var(--bad)">owes ${cur()}${f2(c.owed)}</b>`:'<span class="tag p">Settled</span>'}<div class="mu">bought ${cur()}${f2(c.total)}</div></div></div>`).join('')||'<div class="mu">No customers found. Record a sale first.</div>';
+ box.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{custOpen=L[+b.dataset.c].key;render()})}
+function vCust(){
+ const M=customers();if(custOpen&&M.has(custOpen))return vCustDetail(M.get(custOpen));custOpen='';
+ const all=[...M.values()],owedTot=all.reduce((a,c)=>a+c.owed,0),oc=all.filter(c=>c.owed>0.004).length;
+ $('#v').innerHTML=`<div class="card"><b>Customers</b><div class="mu" style="margin:6px 0">${M.size} customers · ${oc} owing · total owed <b style="color:var(--bad)">${cur()}${f2(owedTot)}</b></div>
+ <div class="row"><select id="cf"><option value="all">All customers</option><option value="owing">Owing money</option></select><input id="cq" placeholder="Search customers"></div></div>
+ <div class="card"><div id="cl2"></div></div>`;
+ $('#cf').value=custF;$('#cq').value=custQ;
+ $('#cf').onchange=e=>{custF=e.target.value;drawCust()};$('#cq').oninput=e=>{custQ=e.target.value.trim().toLowerCase();drawCust()};drawCust()}
+function vCustDetail(c){
+ const sales=c.sales.slice().sort((a,b)=>b.date.localeCompare(a.date)),owing=c.owed>0.004;
+ $('#v').innerHTML=`<button class="sec sm" id="cb" style="margin:0 0 10px">‹ All customers</button>
+ <div class="card"><div class="who">${avatar(c.name)}<div><b style="font-size:18px">${esc(c.name)}</b><div class="mu">${esc(c.phone||'no phone saved')}</div></div></div>
+ <div class="row" style="margin-top:10px"><div><div class="mu">Bought</div><b>${cur()}${f2(c.total)}</b></div><div><div class="mu">Paid</div><b>${cur()}${f2(c.received)}</b></div><div><div class="mu">Owes</div><b style="color:${owing?'var(--bad)':'inherit'}">${cur()}${f2(c.owed)}</b></div></div>
+ <div class="acts" style="margin-top:10px">${owing?'<button class="sm" id="cwr">WhatsApp reminder</button>':''}<button class="sec sm" id="cws">Send statement</button><button class="sec sm" id="cwc">Call</button></div></div>
+ ${owing?`<div class="card"><b>Receive a payment</b><div class="mu">Applied to the oldest unpaid sales first.</div><div class="row"><input id="cpa" type="number" step="0.01" inputmode="decimal" placeholder="Amount received"><button id="cpb" style="margin-top:0">Apply</button></div></div>`:''}
+ <div class="card"><b>Purchases</b>${sales.map(x=>{const m=saleMoney(x);return`<div class="item"><div><b>${esc(x.product)} ×${x.qty}</b><div class="mu">${x.date}${x.status=='Credit'?' · owes '+cur()+f2(m.owed):''}</div></div><div style="text-align:right">${cur()}${f2(m.rev)}<br><span class="tag ${x.status=='Credit'?'':'p'}">${x.status=='Credit'&&m.received>0?'Part paid':x.status}</span><br><button class="sec sm" data-rc="${x.id}">Receipt</button></div></div>`}).join('')}</div>`;
+ onb('#cb',()=>{custOpen='';render()});
+ onb('#cwr',()=>sendText(c.phone,reminderText(c)));onb('#cws',()=>sendText(c.phone,statementText(c)));onb('#cwc',()=>callNumber(c.phone));
+ onb('#cpb',async()=>{const a=num($('#cpa').value);if(a<=0)return toast('Enter the amount received');let r={applied:0,extra:0};
+  const ok=await guardSale('RECEIVE '+cur()+f2(a)+' from '+c.name+' (applied to their oldest unpaid sales)',()=>{r=payCustomer(c.key,a)},n=>n+' received '+cur()+f2(r.applied)+' from '+c.name+', applied to their oldest unpaid sales (they owed '+cur()+f2(c.owed)+')');
+  if(ok)toast('Applied '+cur()+f2(r.applied)+(r.extra>0.004?' · '+cur()+f2(r.extra)+' extra not applied':''));render();autoSync()});
+ document.querySelectorAll('[data-rc]').forEach(b=>b.onclick=()=>{const x=S.sales.find(y=>y.id==b.dataset.rc);if(x)sendText(c.phone||x.phone,receiptText(x))})}
+
+// ---- Stock left ----
+const lowAt=()=>S.set.low==null?3:num(S.set.low);
+function stockItems(){const m=new Map();
+ live(S.products).forEach(p=>{const k=p.category+'|'+p.sub+'|'+p.name;let e=m.get(k);if(!e){e={k,category:p.category,sub:p.sub,name:p.name,bought:0,sold:0,buy:0,sell:0,mi:-1};m.set(k,e)}
+  e.bought+=num(p.qty);const mi=MONTHS.indexOf(p.month);if(mi>=e.mi){e.mi=mi;e.buy=num(p.buy);e.sell=num(p.sell)}});
+ live(S.sales).forEach(x=>{const e=m.get(x.category+'|'+x.sub+'|'+x.product);if(e)e.sold+=num(x.qty)});
+ return[...m.values()].map(e=>({...e,left:e.bought-e.sold}))}
+function addStock(key,q,mo,nu){ // key: item key, or null with nu={category,sub,name,buy,sell}
+ const it=key?stockItems().find(x=>x.k==key):null;const d=it||nu;
+ let p=live(S.products).find(p=>p.month==mo&&p.category==d.category&&p.sub==d.sub&&p.name==d.name);
+ if(!p){p={id:uid(),month:mo,category:d.category,sub:d.sub,name:d.name,qty:0,buy:d.buy,sell:d.sell};S.products.push(p)}
+ else if(nu){if(nu.buy)p.buy=nu.buy;if(nu.sell)p.sell=nu.sell}
+ p.qty=num(p.qty)+q;p.updatedAt=Date.now();p.dirty=true;
+ S.slog.push({id:uid(),date:today(),month:mo,category:p.category,sub:p.sub,name:p.name,qty:q,pid:p.id,updatedAt:Date.now(),dirty:true});save();return p}
+const snapStock=()=>{const o={};stockItems().forEach(x=>o[x.k]=x.left);return o};
+function lowAlert(before){const low=lowAt(),after=snapStock(),hits=[];for(const k in after)if(after[k]<=low&&(before[k]===undefined||before[k]>low))hits.push(k.split('|')[2]+(after[k]<=0?' is OUT of stock':' is low ('+after[k]+' left)'));
+ if(hits.length){const t=hits.join('; ');toast('⚠ '+t);if(S.set.notify&&window.Native&&Native.pushNotify)Native.pushNotify('Global Trio stock alert',t)}}
+function vStock(){
+ const it=stockItems().sort((a,b)=>(a.left-b.left)||a.name.localeCompare(b.name)),low=lowAt();
+ const out=it.filter(x=>x.left<=0).length,lw=it.filter(x=>x.left>0&&x.left<=low).length,curM=MONTHS[new Date().getMonth()];
+ const hist=live(S.slog).sort((a,b)=>b.date.localeCompare(a.date)||b.updatedAt-a.updatedAt).slice(0,15);
+ $('#v').innerHTML=`<div class="card"><b>Stock left</b><div class="mu" style="margin:6px 0">${it.length} items · ${out} out of stock · ${lw} low</div>
+ <label>Warn me when stock is at or below</label><input id="lw" type="number" min="0" value="${low}" inputmode="numeric"></div>
+ <div class="card"><b>Add stock</b><label>Item</label>
+ <select id="si">${it.map(x=>`<option value="${esc(x.k)}">${esc(x.name)} — ${esc(x.category)} · ${esc(x.sub)} (left ${x.left})</option>`).join('')}${role=='owner'?'<option value="__new">＋ New item…</option>':''}</select>
+ <div id="nw" style="display:none"><div class="row"><div><label>Category</label><select id="nc">${Object.keys(catMap()).map(c=>`<option>${esc(c)}</option>`).join('')}</select></div><div><label>Sub-category</label><select id="ns"></select></div></div>
+ <label>Item name</label><input id="nn"><div class="row"><div><label>Buying price</label><input id="nb" type="number" step="0.01"></div><div><label>Selling price</label><input id="nl" type="number" step="0.01"></div></div></div>
+ <div class="row"><div><label>Quantity to add</label><input id="sa" type="number" min="1" inputmode="numeric"></div><div><label>Month</label><select id="sm">${MONTHS.map(m=>`<option ${m==curM?'selected':''}>${m}</option>`).join('')}</select></div></div>
+ <button id="sb">Add stock</button></div>
+ <div class="card"><b>Items</b>${it.map((x,i)=>`<div class="item"><div><b>${esc(x.name)}</b><div class="mu">${esc(x.category)} · ${esc(x.sub)}<br>Bought ${x.bought} · Sold ${x.sold}</div></div>
+ <div style="text-align:right"><div style="font-size:22px;font-weight:700;${x.left<=0?'color:var(--bad)':x.left<=low?'color:var(--warn)':''}">${x.left}</div>
+ <span class="tag ${x.left<=0?'bad':x.left<=low?'warnt':'p'}">${x.left<=0?'Out of stock':x.left<=low?'Low':'In stock'}</span><br><button class="sm" data-add="${i}">+ Add</button></div></div>`).join('')||'<div class="mu">No items yet. Choose "New item" above to add your first one.</div>'}</div>
+ <div class="card"><b>Stock history</b><div class="mu" style="margin:4px 0">Recent stock you added. Undo a mistake and the quantity is taken off again.</div>${hist.map(l=>`<div class="item"><div><b>${esc(l.name)}</b> <span class="tag p">+${l.qty}</span><div class="mu">${l.date} · ${esc(l.month)} · ${esc(l.category)} · ${esc(l.sub)}</div></div><button class="sec sm" data-ul="${l.id}">Undo</button></div>`).join('')||'<div class="mu">No stock additions recorded yet.</div>'}</div>`;
+ const subs=()=>{$('#ns').innerHTML=(catMap()[$('#nc').value]||[]).map(x=>`<option>${esc(x)}</option>`).join('')};
+ const nwToggle=()=>{$('#nw').style.display=$('#si').value=='__new'?'block':'none'};
+ $('#nc').onchange=subs;subs();$('#si').onchange=nwToggle;nwToggle();
+ $('#lw').onchange=e=>{S.set.low=Math.max(0,num(e.target.value));save();render()};
+ $('#sb').onclick=()=>{const q=num($('#sa').value),mo=$('#sm').value,k=$('#si').value;if(q<=0)return toast('Enter the quantity to add');
+  let p;if(k=='__new'){const nm=$('#nn').value.trim();if(!nm)return toast('Enter the item name');
+   p=addStock(null,q,mo,{category:$('#nc').value,sub:$('#ns').value,name:nm,buy:num($('#nb').value),sell:num($('#nl').value)})}
+  else p=addStock(k,q,mo,null);
+  toast('Added '+q+' × '+p.name);render();autoSync()};
+ document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const x=it[+b.dataset.add];$('#si').value=x.k;nwToggle();if(window.scrollTo)window.scrollTo(0,0);$('#sa').focus()});
+ document.querySelectorAll('[data-ul]').forEach(b=>b.onclick=()=>{const l=S.slog.find(x=>x.id==b.dataset.ul);if(!l)return;
+  const p=S.products.find(x=>x.id==l.pid&&!x.deleted)||live(S.products).find(x=>x.month==l.month&&x.category==l.category&&x.sub==l.sub&&x.name==l.name);
+  if(p){p.qty=Math.max(0,num(p.qty)-num(l.qty));p.updatedAt=Date.now();p.dirty=true}
+  l.deleted=true;l.updatedAt=Date.now();l.dirty=true;save();toast('Undone');render();autoSync()});
+}
+function vProd(){
+ const list=live(S.products).filter(p=>p.month==selMonth);
+ $('#v').innerHTML=`<div class="card"><label>Month</label><select id="mo">${MONTHS.map(m=>`<option ${m==selMonth?'selected':''}>${m}</option>`).join('')}</select></div>
+ <div class="card"><b>Add / update product for ${selMonth}</b>
+ <div class="row"><div><label>Category</label><select id="cat">${Object.keys(catMap()).map(c=>`<option>${c}</option>`).join('')}</select></div><div><label>Sub-category</label><select id="sub"></select></div></div>
+ <label>Item / product</label><input id="nm">
+ <div class="row"><div><label>Qty bought</label><input id="qty" type="number"></div><div><label>Buying price</label><input id="by" type="number" step="0.01"></div><div><label>Selling price</label><input id="sl" type="number" step="0.01"></div></div>
+ <button id="ap">Save product</button></div>
+ <div class="card"><b>Categories</b><div class="mu" style="margin:4px 0">Add or remove subcategories (for example a new shipping store), or add a whole new category.</div><button class="sec" id="mc">Manage categories &amp; subcategories</button></div>
+ <div class="card"><b>${selMonth} products</b>${list.map(p=>`<div class="item"><div><b>${esc(p.name)}</b><div class="mu">${esc(p.category)} · ${esc(p.sub)}<br>Qty ${p.qty} · buy ${cur()}${f2(p.buy)} · sell ${cur()}${f2(p.sell)} · ${p.buy?Math.round((p.sell-p.buy)/p.buy*100)+'%':''}</div></div><button class="sec sm" data-dp="${p.id}">Delete</button></div>`).join('')||'<div class="mu">None yet.</div>'}</div>`;
+ onb('#mc',()=>{tab='cats';render();if(window.scrollTo)window.scrollTo(0,0)});
+ $('#mo').onchange=e=>{selMonth=e.target.value;render()};
+ const fs=()=>$('#sub').innerHTML=catMap()[$('#cat').value].map(x=>`<option>${x}</option>`).join('');$('#cat').onchange=fs;fs();
+ $('#ap').onclick=()=>{const nm=$('#nm').value.trim();if(!nm)return toast('Enter product name');
+  let p=live(S.products).find(p=>p.month==selMonth&&p.category==$('#cat').value&&p.sub==$('#sub').value&&p.name==nm);
+  if(!p){p={id:uid(),month:selMonth,category:$('#cat').value,sub:$('#sub').value,name:nm};S.products.push(p)}
+  Object.assign(p,{qty:num($('#qty').value),buy:num($('#by').value),sell:num($('#sl').value),updatedAt:Date.now(),dirty:true});save();toast('Saved');render();autoSync()};
+ document.querySelectorAll('[data-dp]').forEach(b=>b.onclick=()=>{const p=S.products.find(x=>x.id==b.dataset.dp);p.deleted=true;p.updatedAt=Date.now();p.dirty=true;save();render();autoSync()});
+}
+
+function agg(month){ // mirrors workbook month tab maths; % profit = profit / total cost
+ const rows=[];let T={cost:0,rev:0,profit:0,credit:0,paid:0,sold:0};
+ Object.entries(catMap()).forEach(([cat,subs])=>subs.forEach(sub=>{
+  const ps=live(S.products).filter(p=>p.month==month&&p.category==cat&&p.sub==sub);
+  const ss=live(S.sales).filter(s=>mOf(s.date)==month&&yOf(s.date)==+S.set.year&&s.category==cat&&s.sub==sub);
+  const cost=ps.reduce((a,p)=>a+p.qty*p.buy,0),rev=ps.reduce((a,p)=>a+p.qty*p.sell,0);
+  let credit=0,paid=0,sold=0;ss.forEach(s=>{const m=saleMoney(s);sold+=m.profit;credit+=m.owed;paid+=m.received});
+  const r={name:cat+(sub=='N/A (Shipping)'?'':' – '+sub),cost,rev,profit:rev-cost,credit,paid,sold};
+  if(cost||rev||credit||paid)rows.push(r);['cost','rev','profit','credit','paid','sold'].forEach(k=>T[k]+=r[k])}));
+ T.exp=expMonth(month);
+ return{rows,T}}
+const pct=(p,c)=>c?Math.round(p/c*1000)/10+'%':'0%';
+// ---- PIN lock, staff role, weekly backup ----
+const sha256=(()=>{const K=[],H0=[];let n=2,c=0;const isP=x=>{for(let i=2;i*i<=x;i++)if(x%i==0)return false;return true};
+ while(c<64){if(isP(n)){if(c<8)H0.push(Math.floor((Math.sqrt(n)%1)*4294967296));K.push(Math.floor((Math.cbrt(n)%1)*4294967296));c++}n++}
+ const rr=(x,k)=>(x>>>k)|(x<<(32-k));
+ return str=>{const bytes=new TextEncoder().encode(str),l=bytes.length,nb=((l+9+63)>>6)<<6,m=new Uint8Array(nb);m.set(bytes);m[l]=0x80;
+  const dv=new DataView(m.buffer);dv.setUint32(nb-4,(l*8)>>>0);dv.setUint32(nb-8,Math.floor(l*8/4294967296));
+  const h=H0.slice(),w=new Uint32Array(64);
+  for(let o=0;o<nb;o+=64){for(let i=0;i<16;i++)w[i]=dv.getUint32(o+i*4);
+   for(let i=16;i<64;i++){const s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3),s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0}
+   let a=h[0],b=h[1],c2=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+   for(let i=0;i<64;i++){const S1=rr(e,6)^rr(e,11)^rr(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+K[i]+w[i])>>>0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=(a&b)^(a&c2)^(b&c2),t2=(S0+mj)>>>0;hh=g;g=f;f=e;e=(d+t1)>>>0;d=c2;c2=b;b=a;a=(t1+t2)>>>0}
+   h[0]=(h[0]+a)>>>0;h[1]=(h[1]+b)>>>0;h[2]=(h[2]+c2)>>>0;h[3]=(h[3]+d)>>>0;h[4]=(h[4]+e)>>>0;h[5]=(h[5]+f)>>>0;h[6]=(h[6]+g)>>>0;h[7]=(h[7]+hh)>>>0}
+  return h.map(x=>x.toString(16).padStart(8,'0')).join('')}})();
+const pinHash=(salt,pin)=>sha256(salt+':'+pin);
+const hasLock=()=>!!(S.set.pin&&S.set.pin.hash);
+function setPin(which,pin){pin=String(pin||'');if(!/^\d{4,6}$/.test(pin))return'PIN must be 4 to 6 digits';
+ if(which=='staff'&&!hasLock())return'Set the owner PIN first';
+ const other=which=='staff'?S.set.pin:S.set.spin;if(other&&pinHash(other.salt,pin)==other.hash)return'Owner and staff PINs must be different';
+ const salt=uid()+uid();S.set[which=='staff'?'spin':'pin']={salt,hash:pinHash(salt,pin),len:pin.length};save();return''}
+function checkPin(pin){const o=S.set.pin,t=S.set.spin;if(o&&pinHash(o.salt,pin)==o.hash)return'owner';if(t&&pinHash(t.salt,pin)==t.hash)return'staff';return''}
+let locked=false,lockBuf='',fails=0,lockUntil=0,hiddenAt=0,lockMsg='',bioPurpose='lock';
+function drawLock(){const el=document.querySelector('#lock');if(!el)return;
+ const mx=Math.max(4,...[S.set.pin&&S.set.pin.len,S.set.spin&&S.set.spin.len].filter(Boolean));
+ el.innerHTML=`<div class="lkb"><div class="mu" style="font-size:14px">Global Trio</div><h2 style="margin:6px 0 2px">Enter PIN</h2><div class="mu">${esc(lockMsg)}</div>
+ <div style="font-size:24px;letter-spacing:8px;margin:14px 0;min-height:34px">${'●'.repeat(lockBuf.length)}${'○'.repeat(Math.max(0,mx-lockBuf.length))}</div>
+ <div class="kp">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?'<span></span>':`<button class="sec" data-k="${k}">${k}</button>`).join('')}</div>
+ ${S.set.bio&&window.Native&&Native.biometric?'<button class="sec" id="lbio" style="margin-top:12px">Use fingerprint</button>':''}</div>`;
+ el.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>lockKey(b.dataset.k));const bb=el.querySelector('#lbio');if(bb)bb.onclick=()=>{bioPurpose='lock';Native.biometric()}}
+function lockKey(k){if(Date.now()<lockUntil){lockMsg='Too many attempts - wait '+Math.ceil((lockUntil-Date.now())/1000)+'s';lockBuf='';return drawLock()}
+ lockMsg='';if(k==='⌫')lockBuf=lockBuf.slice(0,-1);else if(lockBuf.length<6)lockBuf+=k;
+ const lens=[S.set.pin&&S.set.pin.len,S.set.spin&&S.set.spin.len].filter(Boolean),mx=Math.max(4,...lens);
+ if(lens.includes(lockBuf.length)){const r=checkPin(lockBuf);if(r)return unlock(r)}
+ if(lockBuf.length>=mx){fails++;lockBuf='';lockMsg='Wrong PIN';if(fails>=5){lockUntil=Date.now()+30000;fails=0;lockMsg='Too many attempts - wait 30 seconds'}}
+ drawLock()}
+function applyRole(){document.querySelectorAll('nav a').forEach(a=>{const t=a.dataset.t;a.style.display=((role!='owner'&&['home','more'].includes(t))||(role=='owner'&&t=='notes'))?'none':''});
+ const lk=document.querySelector('#lk');if(lk){lk.style.display=hasLock()?'':'none';lk.innerHTML=ic('lock',17)}}
+function unlock(r){role=r;locked=false;fails=0;lockBuf='';lockMsg='';const el=document.querySelector('#lock');if(el)el.style.display='none';applyRole();checkAlerts();tab=(r=='owner')?'home':'sales';render();autoBackup();maybeSetup();showChanges()}
+function showLock(){if(!hasLock())return;locked=true;lockBuf='';lockMsg='';const el=document.querySelector('#lock');if(el)el.style.display='flex';drawLock();
+ if(S.set.bio&&window.Native&&Native.biometric)setTimeout(()=>{if(locked){bioPurpose='lock';Native.biometric()}},350)}
+window.__bio=ok=>{if(bioPurpose=='cats'){bioPurpose='lock';if(ok)verified();else toast('Verification cancelled');return}if(ok&&locked)unlock('owner')};
+const lockDelayMs=()=>(S.set.lockAfter==null?60:S.set.lockAfter)*1000;
+async function autoBackup(force){if(!force&&!S.set.backup)return;if(!force&&Date.now()-(S.set.lastBackup||0)<7*864e5)return;
+ if(!live(S.sales).length&&!live(S.products).length){if(force)toast('Nothing to back up yet');return}
+ try{const x=buildExport(),name='GlobalTrio-backup-'+today()+'.xlsx';
+  if(window.Native&&Native.saveQuiet)Native.saveQuiet(name,x.b64,x.mime);
+  if(SH().tok&&SH().tok.refresh){try{const tok=await shToken();await nfetch('https://graph.microsoft.com/v1.0/me/drive/root:'+encodeURI('/GlobalTrio Backups/'+name)+':/content',{method:'PUT',headers:{Authorization:'Bearer '+tok,'Content-Type':x.mime,'X-GT-Base64':'1'},body:x.b64})}catch(e){}}
+  S.set.lastBackup=Date.now();save();toast('Backup saved: '+name)}catch(e){toast('Backup failed: '+e.message)}}
+function secCard(){const hp=hasLock(),hs=!!(S.set.spin&&S.set.spin.hash),bio=!!(window.Native&&Native.canBiometric&&Native.canBiometric());
+ return`<div class="card"><b>Security &amp; staff access</b><div class="mu" style="margin:6px 0">The owner PIN locks the app. A staff PIN opens a limited view: sales, customers and stock only (no profit, prices, expenses, settings or sharing). This stops casual snooping; it is not bank-grade encryption.</div>
+ <label>${hp?'Change owner PIN':'Set owner PIN'} (4-6 digits)</label><input id="pn1" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
+ <button id="pset">${hp?'Change owner PIN':'Set owner PIN'}</button>${hp?'<button class="sec" id="prem">Remove PIN lock</button>':''}
+ ${hp?`<label>${hs?'Change staff PIN':'Set staff PIN'} (4-6 digits)</label><input id="pn2" type="password" inputmode="numeric" maxlength="6" autocomplete="off"><button class="sec" id="sset">${hs?'Change staff PIN':'Set staff PIN'}</button>${hs?'<button class="sec" id="srem">Remove staff PIN</button>':''}
+ <label>Lock the app after I leave it for</label><select id="la">${[[0,'Immediately'],[60,'1 minute'],[300,'5 minutes'],[900,'15 minutes']].map(([v,t])=>`<option value="${v}" ${(S.set.lockAfter==null?60:S.set.lockAfter)==v?'selected':''}>${t}</option>`).join('')}</select>
+ ${bio?`<label>Fingerprint unlock (opens as owner)</label><select id="bio"><option value="0">Off</option><option value="1" ${S.set.bio?'selected':''}>On</option></select>`:''}`:''}</div>`}
+function alertCard(){return`<div class="card"><b>Alerts, backup &amp; WhatsApp</b>
+ <label>Your name (shown to other managers when you change categories)</label><input id="mn" value="${esc(S.set.myName||'')}">
+ <label>Alert me when another manager changes categories</label><select id="ma"><option value="1">On</option><option value="0" ${S.set.mgmtAlerts===false?'selected':''}>Off</option></select>
+ <label>Country code for WhatsApp numbers (e.g. 263, 1, 44)</label><input id="cc" value="${esc(S.set.cc||'')}" inputmode="numeric">
+ <label>Low-stock notifications</label><select id="nt"><option value="0">Off</option><option value="1" ${S.set.notify?'selected':''}>On</option></select>
+ <label>Automatic weekly Excel backup (runs when you open the app)</label><select id="ab"><option value="0">Off</option><option value="1" ${S.set.backup?'selected':''}>On</option></select>
+ <div class="mu" style="margin-top:6px">${S.set.lastBackup?'Last backup: '+esc(new Date(S.set.lastBackup).toLocaleString()):'No backup yet'}. Saved in Downloads${SH().tok&&SH().tok.refresh?' and OneDrive (GlobalTrio Backups folder)':''}.</div>
+ <button class="sec" id="abn">Back up now</button><button class="sec" id="acs">Save these settings</button></div>`}
+function bindSec(){
+ onb('#pset',()=>{const e=setPin('owner',fv('#pn1'));toast(e||'Owner PIN saved');if(!e){applyRole();render()}});
+ onb('#prem',()=>{S.set.pin=null;S.set.spin=null;S.set.bio=false;save();toast('PIN lock removed');applyRole();render()});
+ onb('#sset',()=>{const e=setPin('staff',fv('#pn2'));toast(e||'Staff PIN saved');if(!e)render()});
+ onb('#srem',()=>{S.set.spin=null;save();render()});
+ const la=document.querySelector('#la');if(la)la.onchange=e=>{S.set.lockAfter=+e.target.value;save()};
+ const bi=document.querySelector('#bio');if(bi)bi.onchange=e=>{S.set.bio=e.target.value=='1';save()};
+ const saveA=()=>{S.set.myName=(fv('#mn')||'').trim();const ma=fv('#ma')!='0';if(ma&&S.set.mgmtAlerts===false&&window.Native&&Native.askNotify)Native.askNotify();S.set.mgmtAlerts=ma;S.set.cc=(fv('#cc')||'').replace(/\D/g,'');const n=fv('#nt')=='1';if(n&&!S.set.notify&&window.Native&&Native.askNotify)Native.askNotify();S.set.notify=n;S.set.backup=fv('#ab')=='1';save()};
+ onb('#acs',()=>{saveA();toast('Saved')});onb('#abn',()=>{saveA();autoBackup(true)})}
+// ---- Category editor: fingerprint/PIN protected, every change logged, other managers alerted ----
+let catEd=null,catAuthUntil=0,catFails=0,catLockUntil=0;
+const catUnlocked=()=>Date.now()<catAuthUntil;
+const needAuth=()=>catUnlocked()?'':'Verify with your fingerprint or owner PIN first';
+const authOk=()=>{catAuthUntil=Date.now()+120000};
+function devId(){if(!S.set.dev){S.set.dev=uid()+uid();save()}return S.set.dev}
+const myName=()=>String(S.set.myName||'').trim();
+function logChange(text,o){o=o||{};S.alog.push({id:uid(),ts:Date.now(),by:o.by||myName()||'Unknown',dev:devId(),kind:o.kind||'category',role:role,revoked:!!o.revoked,text,updatedAt:Date.now(),dirty:true});save()}
+function askNotifyOnce(){if(!S.set.askedNotify&&window.Native&&Native.askNotify){S.set.askedNotify=true;save();Native.askNotify()}}
+function verified(){authOk();askNotifyOnce();toast('Verified ✓');if(tab=='cats')render()}
+function askCatAuth(){bioPurpose='cats';if(window.Native&&Native.biometricAuth)Native.biometricAuth('Confirm category change');else{bioPurpose='lock';toast('Fingerprint is not available on this phone')}}
+const catUse=(cat,sub)=>{const f=x=>x.category==cat&&(sub===undefined||x.sub==sub);return{p:live(S.products).filter(f).length,s:live(S.sales).filter(f).length}};
+function catRec(name,create){let r;
+ if(name in BASE_CATS){r=S.cats.find(x=>x.id=='base:'+name);if(r&&r.deleted)r.deleted=false}else r=S.cats.find(x=>!x.deleted&&x.name==name);
+ if(!r&&create){r={id:(name in BASE_CATS?'base:'+name:uid()),name,subs:[...(catMap()[name]||[])],updatedAt:Date.now(),dirty:true};S.cats.push(r)}
+ return r}
+function setSubs(name,subs){const r=catRec(name,true);r.subs=subs;r.deleted=false;r.updatedAt=Date.now();r.dirty=true;save()}
+function touchAll(f,patch){let n=0;[S.products,S.sales,S.slog].forEach(t=>t.forEach(x=>{if(f(x)){patch(x);x.updatedAt=Date.now();x.dirty=true;n++}}));return n}
+function addSub(name,sub){const g=needAuth();if(g)return g;sub=String(sub||'').trim();if(!sub)return'Enter a subcategory name';const cur=catMap()[name]||[];
+ if(cur.some(x=>x.toLowerCase()==sub.toLowerCase()))return'That subcategory already exists';
+ setSubs(name,[...cur,sub]);authOk();logChange('Added subcategory "'+sub+'" to '+name);return''}
+function removeSub(name,sub){const g=needAuth();if(g)return g;const cur=catMap()[name]||[];if(cur.length<=1)return'A category needs at least one subcategory';const u=catUse(name,sub);
+ if(u.p+u.s>0)return sub+' is used by '+u.p+' product record(s) and '+u.s+' sale(s). Rename it instead, or keep it.';
+ setSubs(name,cur.filter(x=>x!==sub));authOk();logChange('Removed subcategory "'+sub+'" from '+name);return''}
+function renameSub(name,old,nw){const g=needAuth();if(g)return g;nw=String(nw||'').trim();if(!nw)return'Enter a name';if(nw===old)return'';const cur=catMap()[name]||[];
+ if(cur.some(x=>x.toLowerCase()==nw.toLowerCase()))return'That subcategory already exists';
+ setSubs(name,cur.map(x=>x===old?nw:x));const n=touchAll(x=>x.category==name&&x.sub==old,x=>x.sub=nw);save();authOk();
+ logChange('Renamed subcategory "'+old+'" to "'+nw+'" in '+name+' ('+n+' record'+(n==1?'':'s')+' updated)');return''}
+function renameCat(old,nw){const g=needAuth();if(g)return g;nw=String(nw||'').trim();if(old in BASE_CATS)return'Built-in categories cannot be renamed';if(!nw)return'Enter a name';if(nw===old)return'';
+ if(catMap()[nw])return'That category already exists';const r=catRec(old,false);if(!r)return'Category not found';
+ r.name=nw;r.updatedAt=Date.now();r.dirty=true;const n=touchAll(x=>x.category==old,x=>x.category=nw);save();authOk();
+ logChange('Renamed category "'+old+'" to "'+nw+'" ('+n+' record'+(n==1?'':'s')+' updated)');return''}
+function addCat(name,subsText){const g=needAuth();if(g)return g;name=String(name||'').trim();if(!name)return'Enter a category name';if(catMap()[name])return'That category already exists';
+ const seen=new Set(),subs=String(subsText||'').split(',').map(x=>x.trim()).filter(x=>{const k=x.toLowerCase();if(!x||seen.has(k))return false;seen.add(k);return true});
+ const list=subs.length?subs:['General'];S.cats.push({id:uid(),name,subs:list,updatedAt:Date.now(),dirty:true});save();authOk();
+ logChange('Added category "'+name+'" with subcategories: '+list.join(', '));return''}
+function delCat(name){const g=needAuth();if(g)return g;if(name in BASE_CATS)return'Built-in categories cannot be deleted';const u=catUse(name);
+ if(u.p+u.s)return name+' is used by '+u.p+' product record(s) and '+u.s+' sale(s). Delete those first.';
+ const r=catRec(name,false);if(!r)return'';r.deleted=true;r.updatedAt=Date.now();r.dirty=true;save();authOk();logChange('Deleted category "'+name+'"');return''}
+function vCats(){
+ const M=catMap(),names=[...Object.keys(BASE_CATS),...Object.keys(M).filter(n=>!(n in BASE_CATS))],un=catUnlocked();
+ const canBio=!!(window.Native&&Native.canBiometric&&Native.biometricAuth&&Native.canBiometric()),pin=hasLock();
+ const lockCard=`<div class="card"><b>🔒 Verify to edit</b><div class="mu" style="margin:4px 0">Category changes need your fingerprint${pin?' or owner PIN':''}. Every change is recorded with your name and other managers are alerted.</div>
+  ${myName()?`<div class="mu">Signed as <b>${esc(myName())}</b> (change in More &gt; Settings)</div>`:'<label>Your name (shown to other managers)</label><input id="cname">'}
+  ${canBio?'<button id="cbio">Use fingerprint</button>':''}
+  ${pin?'<label>Owner PIN</label><input id="cpin" type="password" inputmode="numeric" maxlength="6" autocomplete="off"><button class="sec" id="cpv">Verify with PIN</button>':''}
+  ${!canBio&&!pin?'<div style="color:var(--bad);margin-top:8px">This phone has no fingerprint set up and no owner PIN. Set an owner PIN in More &gt; Settings &gt; Security to edit categories.</div>':''}</div>`;
+ const renRow=v=>`<div class="acts" style="margin:6px 0"><input id="rnv" value="${esc(v)}"><button class="sm" data-rok="1">Save</button><button class="sec sm" data-rcx="1">Cancel</button></div>`;
+ $('#v').innerHTML=`<div class="card"><b>Categories &amp; subcategories</b><div class="mu" style="margin-top:4px">Add or remove subcategories under any category. Something that already has products or sales can be renamed but not removed.</div>
+  ${un?`<div class="mu" style="margin-top:8px">🔓 Unlocked for editing${myName()?' as <b>'+esc(myName())+'</b>':''}. It locks again after 2 minutes without a change. <button class="sec sm" id="clk">Lock now</button></div>`:''}</div>`+(un?'':lockCard)+
+ names.map((n,ci)=>{const subs=M[n],bi=n in BASE_CATS;
+  return`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>${esc(n)}</b>${bi?'<span class="tag">built-in</span>':(un?`<span><button class="sec sm" data-crn="${ci}">Rename</button> <button class="sec sm" data-cdel="${ci}">Delete</button></span>`:'')}</div>
+  ${un&&catEd&&catEd.k=='cat'&&catEd.cat==n?renRow(n):''}
+  ${subs.map((x,si)=>{const u=catUse(n,x);return`<div class="item"><div>${esc(x)}<div class="mu">${u.p+u.s?u.p+' product(s) · '+u.s+' sale(s)':'unused'}</div></div>${un?`<span><button class="sec sm" data-srn="${ci}-${si}">Rename</button> <button class="sec sm" data-sdel="${ci}-${si}">Remove</button></span>`:''}</div>${un&&catEd&&catEd.k=='sub'&&catEd.cat==n&&catEd.sub==x?renRow(x):''}`}).join('')}
+  ${un?`<div class="acts" style="margin-top:8px"><input id="ns${ci}" placeholder="New subcategory under ${esc(n)}"><button class="sm" data-sadd="${ci}">Add</button></div>`:''}</div>`}).join('')+
+ (un?`<div class="card"><b>Add a new category</b><label>Category name</label><input id="ncn"><label>Subcategories (comma separated)</label><input id="ncs" placeholder="General"><button id="ncadd">Add category</button></div>`:'');
+ const qa=(sel,fn)=>document.querySelectorAll(sel).forEach(b=>b.onclick=()=>fn(b.dataset));
+ const done=(e,ok)=>{if(e){toast(e);if(!catUnlocked())render();return}catEd=null;toast(ok+' · other managers will be alerted');render();autoSync()};
+ const saveName=()=>{const e=document.querySelector('#cname');if(e){const v=String(e.value||'').trim();if(!v){toast('Enter your name first');return false}S.set.myName=v;save()}else if(!myName()){toast('Set your name in More > Settings first');return false}return true};
+ onb('#cbio',()=>{if(saveName())askCatAuth()});
+ onb('#cpv',()=>{if(!saveName())return;if(Date.now()<catLockUntil)return toast('Too many attempts - wait a moment');
+  if(checkPin(fv('#cpin')||'')=='owner'){catFails=0;verified()}else{catFails++;if(catFails>=5){catLockUntil=Date.now()+30000;catFails=0;toast('Too many attempts - wait 30 seconds')}else toast('Wrong PIN')}});
+ onb('#clk',()=>{catAuthUntil=0;catEd=null;render()});
+ qa('[data-sadd]',d=>done(addSub(names[+d.sadd],$('#ns'+d.sadd).value),'Subcategory added'));
+ qa('[data-sdel]',d=>{const[ci,si]=d.sdel.split('-').map(Number);done(removeSub(names[ci],M[names[ci]][si]),'Subcategory removed')});
+ qa('[data-srn]',d=>{const[ci,si]=d.srn.split('-').map(Number);catEd={k:'sub',cat:names[ci],sub:M[names[ci]][si]};render()});
+ qa('[data-crn]',d=>{catEd={k:'cat',cat:names[+d.crn]};render()});
+ qa('[data-cdel]',d=>done(delCat(names[+d.cdel]),'Category deleted'));
+ qa('[data-rcx]',()=>{catEd=null;render()});
+ qa('[data-rok]',()=>{if(!catEd)return;const v=$('#rnv').value;done(catEd.k=='sub'?renameSub(catEd.cat,catEd.sub,v):renameCat(catEd.cat,v),'Renamed')});
+ onb('#ncadd',()=>done(addCat($('#ncn').value,$('#ncs').value),'Category added'))}
+// ---- Alerts to other managers + activity log ----
+function checkAlerts(){if(role!='owner')return;const seen=S.set.alogSeen=S.set.alogSeen||[],fr=S.set.firstRun||0;
+ const fresh=live(S.alog).filter(l=>l.dev!==devId()&&!seen.includes(l.id)&&l.ts>fr-600000).sort((a,b)=>a.ts-b.ts);
+ if(!fresh.length)return;fresh.forEach(l=>seen.push(l.id));if(seen.length>2000)seen.splice(0,seen.length-2000);save();
+ const names=[...new Set(fresh.map(l=>l.by))].join(', '),rev=fresh.filter(l=>l.revoked),kinds=new Set(fresh.map(l=>l.kind||'category'));
+ const noun=kinds.size==1?(kinds.has('sale')?'sales change':kinds.has('profile')?'business profile change':'category change'):'change';
+ toast((rev.length?'⚠ ':'🔔 ')+fresh.length+' '+noun+(fresh.length>1?'s':'')+(rev.length?' ('+rev.length+' REVOKED - no name given)':'')+' by '+names+' - see More > Activity');
+ if(S.set.mgmtAlerts!==false&&window.Native&&Native.pushNotify)Native.pushNotify(rev.length?'Global Trio - change blocked':'Global Trio - '+noun,fresh.slice(-3).map(l=>(l.revoked?'⚠ ':'')+l.by+': '+l.text).join('\n'))}
+const unreadLog=()=>live(S.alog).filter(l=>l.dev!==devId()&&l.ts>Math.max(S.set.logRead||0,(S.set.firstRun||0)-600000)).length;
+function vLog(){S.set.logRead=Date.now();save();
+ const L=live(S.alog).sort((a,b)=>b.ts-a.ts).slice(0,100);
+ $('#v').innerHTML=`<div class="card"><b>Activity &amp; alerts</b><div class="mu" style="margin:4px 0">Category edits and changes to sales (marked paid, edited, payments, deleted) made on any phone. A change with no name is revoked and shown here as REVOKED. You are alerted when another phone's entry reaches this one (the app checks about every minute while open, and each time you open it).</div>
+ <button class="sec" id="lmsg">Message managers about recent changes</button></div>
+ <div class="card">${L.map(l=>`<div class="item"><div><b>${esc(l.by||'Unknown')}</b>${l.role?' <span class="mu">('+esc(l.role)+')</span>':''}${l.revoked?' <span class="tag bad">REVOKED</span>':''}${l.dev==devId()?' <span class="tag">you</span>':''}<div>${esc(l.text)}</div><div class="mu">${esc(new Date(l.ts).toLocaleString())}</div></div></div>`).join('')||'<div class="mu">No changes recorded yet.</div>'}</div>`;
+ onb('#lmsg',()=>{if(!L.length)return toast('Nothing to report yet');sendText('',bizName()+' - category changes:\n'+L.slice(0,5).map(l=>'• '+l.by+': '+l.text).join('\n'))})}
+// ---- Notepad: transactions and reminders recorded as plain text ----
+const NTYPES={note:'Note',in:'Money in',out:'Money out',reminder:'Reminder'};
+let noteF='all',noteQ='',noteEd='',noteArm={id:'',until:0};
+const noteBy=()=>myName()||(role=='staff'?'Staff':'Owner');
+const openReminders=()=>live(S.notes).filter(n=>n.type=='reminder'&&!n.done).length;
+function saveNote(o){const text=String(o.text||'').trim();if(!text)return'Write something first';
+ const type=NTYPES[o.type]?o.type:'note',raw=o.amt===''||o.amt==null?'':num(o.amt);if(raw!==''&&raw<0)return'Amount cannot be negative';
+ const amt=raw===''?'':Math.round(raw*100)/100,date=/^\d{4}-\d{2}-\d{2}$/.test(o.date||'')?o.date:today();
+ if(o.id){const n=S.notes.find(x=>x.id==o.id&&!x.deleted);if(!n)return'Note not found';Object.assign(n,{date,type,amt,text});n.updatedAt=Date.now();n.dirty=true;save();return''}
+ S.notes.push({id:uid(),date,type,amt,text,by:noteBy(),done:false,updatedAt:Date.now(),dirty:true});save();return''}
+function notesFiltered(){return live(S.notes).filter(n=>noteF=='all'||(noteF=='open'?(n.type=='reminder'&&!n.done):n.type==noteF))
+ .filter(n=>!noteQ||(n.text+' '+(n.by||'')).toLowerCase().includes(noteQ)).sort((a,b)=>b.date.localeCompare(a.date)||b.updatedAt-a.updatedAt)}
+function noteToExpense(n){if(role!='owner')return'Only the owner can turn a note into an expense';const a=num(n.amt);if(a<=0)return'Add an amount to the note first';
+ if(n.expId&&S.exps.find(e=>e.id==n.expId&&!e.deleted))return'Already turned into an expense';
+ const e={id:uid(),date:n.date,cat:'Other',desc:String(n.text).replace(/\s+/g,' ').slice(0,60),amt:Math.round(a*100)/100,updatedAt:Date.now(),dirty:true};
+ S.exps.push(e);n.expId=e.id;n.updatedAt=Date.now();n.dirty=true;save();return''}
+const noteText=n=>bizName()+' note ('+n.date+(NTYPES[n.type]?', '+NTYPES[n.type]:'')+(n.amt!==''&&n.amt!=null?', '+cur()+f2(n.amt):'')+'):\n'+n.text;
+function drawNotes(){const box=document.querySelector('#nl');if(!box)return;const L=notesFiltered();
+ const inn=L.filter(n=>n.type=='in').reduce((a,n)=>a+num(n.amt),0),out=L.filter(n=>n.type=='out').reduce((a,n)=>a+num(n.amt),0);
+ $('#nsum').innerHTML=L.length+' note'+(L.length==1?'':'s')+' · Money in <b>'+cur()+f2(inn)+'</b> · Money out <b>'+cur()+f2(out)+'</b> <span class="mu">(notes only - not part of the Summary)</span>';
+ box.innerHTML=L.slice(0,200).map(n=>{const arm=noteArm.id==n.id&&Date.now()<noteArm.until,amt=n.amt!==''&&n.amt!=null;
+  return`<div class="item"><div style="min-width:0;flex:1"><div class="mu">${esc(n.date)} · <span class="tag ${n.type=='in'?'p':n.type=='out'?'bad':''}">${NTYPES[n.type]||'Note'}</span> · ${esc(n.by||'')}${n.type=='reminder'&&n.done?' · <b>done</b>':''}${n.expId?' · <b>expense created</b>':''}</div><div class="ntxt">${esc(n.text)}</div></div>
+  <div style="text-align:right">${amt?`<b style="color:${n.type=='out'?'var(--bad)':'inherit'}">${cur()}${f2(n.amt)}</b>`:''}</div>
+  <div class="acts"><button class="sec sm" data-ne="${n.id}">Edit</button><button class="sec sm" data-ns="${n.id}">Share</button>${n.type=='reminder'?`<button class="sm" data-nd="${n.id}">${n.done?'Reopen':'Mark done'}</button>`:''}${role=='owner'&&n.type=='out'&&amt&&!n.expId?`<button class="sec sm" data-nx="${n.id}">Make expense</button>`:''}${role=='owner'?`<button class="sec sm" data-nr="${n.id}">${arm?'Tap again to delete':'Delete'}</button>`:''}</div></div>`}).join('')||'<div class="mu">No notes found.</div>';
+ const get=id=>S.notes.find(x=>x.id==id),on=(sel,key,fn)=>box.querySelectorAll(sel).forEach(b=>b.onclick=()=>fn(get(b.dataset[key])));
+ on('[data-ne]','ne',n=>{noteEd=n.id;render();if(window.scrollTo)window.scrollTo(0,0)});
+ on('[data-ns]','ns',n=>sendText('',noteText(n)));
+ on('[data-nd]','nd',n=>{n.done=!n.done;n.updatedAt=Date.now();n.dirty=true;save();drawNotes();autoSync()});
+ on('[data-nx]','nx',n=>{const e=noteToExpense(n);if(e)return toast(e);toast('Expense of '+cur()+f2(n.amt)+' created (category Other)');drawNotes();autoSync()});
+ on('[data-nr]','nr',n=>{if(role!='owner')return;if(noteArm.id==n.id&&Date.now()<noteArm.until){n.deleted=true;n.updatedAt=Date.now();n.dirty=true;noteArm={id:'',until:0};save();toast('Note deleted');drawNotes();autoSync()}else{noteArm={id:n.id,until:Date.now()+4000};toast('Tap Delete again to confirm');drawNotes()}})}
+function vNotes(){const ed=noteEd?S.notes.find(x=>x.id==noteEd&&!x.deleted):null;if(noteEd&&!ed)noteEd='';
+ $('#v').innerHTML=`<div class="card"><b>${ed?'Edit note':'New note'}</b>
+ <label>Date</label><input type="date" id="nd" value="${today()}">
+ <div class="row"><div><label>Type</label><select id="ny">${Object.entries(NTYPES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div><div><label>Amount (optional)</label><input id="na" type="number" step="0.01" inputmode="decimal"></div></div>
+ <label>What happened?</label><textarea id="nt" rows="4" placeholder="e.g. Gave Ann ${cur()}5 change - she pays Friday"></textarea>
+ <button id="nsv">${ed?'Update note':'Save note'}</button>${ed?'<button class="sec" id="ncx">Cancel edit</button>':''}</div>
+ <div class="card"><b>Notepad</b><div class="row" style="margin-top:6px"><select id="nf"><option value="all">All notes</option><option value="note">Notes</option><option value="in">Money in</option><option value="out">Money out</option><option value="reminder">Reminders</option><option value="open">Open reminders</option></select><input id="nq" placeholder="Search notes"></div>
+ <div class="mu" id="nsum" style="margin:8px 0"></div><div id="nl"></div></div>`;
+ if(ed){$('#nd').value=ed.date;$('#ny').value=ed.type;$('#na').value=ed.amt===''?'':ed.amt;$('#nt').value=ed.text}
+ $('#nf').value=noteF;$('#nq').value=noteQ;
+ $('#nf').onchange=e=>{noteF=e.target.value;drawNotes()};$('#nq').oninput=e=>{noteQ=e.target.value.trim().toLowerCase();drawNotes()};
+ $('#nsv').onclick=()=>{const e=saveNote({id:ed?ed.id:'',date:$('#nd').value,type:$('#ny').value,amt:$('#na').value,text:$('#nt').value});if(e)return toast(e);noteEd='';toast(ed?'Note updated':'Note saved');render();autoSync()};
+ onb('#ncx',()=>{noteEd='';render()});drawNotes()}
+
+// ---- Home dashboard ----
+function homeStats(){const t=today(),now=new Date(),ym=t.slice(0,7),low=lowAt(),sm=live(S.sales).map(s=>({s,m:saleMoney(s)}));
+ const tr=sm.filter(x=>x.s.date==t),sum=(a,f)=>a.reduce((q,x)=>q+f(x),0);
+ const cashToday=sum(tr,x=>x.m.received)+sum(sm.filter(x=>x.s.date!=t),x=>sum((x.s.pays||[]).filter(p=>p.date==t),p=>num(p.amt)));
+ const mo=sm.filter(x=>String(x.s.date).slice(0,7)==ym),profM=sum(mo,x=>x.m.profit),expM=live(S.exps).filter(e=>String(e.date).slice(0,7)==ym).reduce((a,e)=>a+num(e.amt),0);
+ const days=[];for(let i=6;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i),ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');days.push({ds,l:['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],v:sum(sm.filter(x=>x.s.date==ds),x=>x.m.rev)})}
+ const items=stockItems();
+ return{t,nToday:tr.length,revToday:sum(tr,x=>x.m.rev),cashToday,revM:sum(mo,x=>x.m.rev),profM,expM,netM:profM-expM,owedAll:sum(sm,x=>x.m.owed),days,
+  debtors:[...customers().values()].filter(c=>c.owed>0.004).sort((a,b)=>b.owed-a.owed).slice(0,3),
+  lowItems:items.filter(x=>x.left<=low).sort((a,b)=>a.left-b.left).slice(0,4),nLow:items.filter(x=>x.left<=low).length,reminders:openReminders(),unread:unreadLog()}}
+function vHome(){const h=homeStats(),b=biz(),hr=new Date().getHours(),greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening',who=b.owner||myName();
+ const attn=[];
+ h.debtors.forEach(c=>attn.push(`<div class="item"><div class="who">${avatar(c.name)}<div><b>${esc(c.name)}</b><div class="mu">owes <b style="color:var(--bad)">${cur()}${f2(c.owed)}</b></div></div></div><button class="sm" data-rem="${esc(c.key)}">${ic('chat',14)} Remind</button></div>`));
+ h.lowItems.forEach(x=>attn.push(`<div class="item"><div class="who"><span class="ico" style="width:38px;height:38px;border-radius:13px">${ic('box',18)}</span><div><b>${esc(x.name)}</b><div class="mu">${esc(x.category)} · ${esc(x.sub)}</div></div></div><span class="tag ${x.left<=0?'bad':'warnt'}">${x.left<=0?'Out of stock':x.left+' left'}</span></div>`));
+ if(h.reminders)attn.push(`<div class="item"><div class="who"><span class="ico" style="width:38px;height:38px;border-radius:13px">${ic('notes',18)}</span><div><b>${h.reminders} open reminder${h.reminders==1?'':'s'}</b><div class="mu">in your Notepad</div></div></div><button class="sm sec" data-qa="notes">Open</button></div>`);
+ if(h.unread)attn.push(`<div class="item"><div class="who"><span class="ico" style="width:38px;height:38px;border-radius:13px">${ic('bell',18)}</span><div><b>${h.unread} new activity alert${h.unread==1?'':'s'}</b><div class="mu">changes made by other managers</div></div></div><button class="sm sec" data-qa="log">View</button></div>`);
+ $('#v').innerHTML=`<div class="hero"><small>${greet}${who?', '+esc(who):''}</small><div class="big">${cur()}${f2(h.revToday)}</div><small>Sales today · ${h.nToday} sale${h.nToday==1?'':'s'}</small></div>
+ <div class="kpis">
+  <div class="kpi"><div class="kl"><span class="ico">${ic('wallet',16)}</span>Cash received today</div><div class="kv">${cur()}${f2(h.cashToday)}</div><div class="ks">payments + paid sales</div></div>
+  <div class="kpi"><div class="kl"><span class="ico">${ic('users',16)}</span>Customers owe</div><div class="kv" style="color:${h.owedAll>0.004?'var(--bad)':'inherit'}">${cur()}${f2(h.owedAll)}</div><div class="ks">${h.debtors.length?'most: '+esc(h.debtors[0].name):'everyone is settled'}</div></div>
+  <div class="kpi"><div class="kl"><span class="ico">${ic('chart',16)}</span>Net profit this month</div><div class="kv">${cur()}${f2(h.netM)}</div><div class="ks">profit ${cur()}${f2(h.profM)} − expenses ${cur()}${f2(h.expM)}</div></div>
+  <div class="kpi"><div class="kl"><span class="ico">${ic('box',16)}</span>Low stock</div><div class="kv" style="color:${h.nLow?'var(--warn)':'inherit'}">${h.nLow}</div><div class="ks">items at or below ${lowAt()}</div></div></div>
+ <div class="qa">${[['sales','plus','New sale'],['stock','box','Add stock'],['exp','wallet','Expense'],['notes','notes','Note']].map(([t,i,l])=>`<button data-qa="${t}"><span class="ico">${ic(i,20)}</span>${l}</button>`).join('')}</div>
+ <div class="card"><b>Last 7 days (${cur()})</b>${barSvg(h.days.map(d=>d.v),h.days.map(d=>d.l))}</div>
+ <div class="card"><b>Needs attention</b>${attn.join('')||'<div class="empty">'+ic('check',26)+'<div>All clear - nothing needs your attention.</div></div>'}</div>
+ <button class="sec" data-qa="sum">${ic('chart',16)} Detailed monthly summary</button>`;
+ document.querySelectorAll('[data-qa]').forEach(b=>b.onclick=()=>{tab=b.dataset.qa;render();if(window.scrollTo)window.scrollTo(0,0)});
+ document.querySelectorAll('[data-rem]').forEach(b=>b.onclick=()=>{const c=customers().get(b.dataset.rem);if(c)sendText(c.phone,reminderText(c))})}
+
+// ---- Business profile + first-run setup wizard ----
+const CURRENCIES=[['$','US dollar ($)'],['R','Rand (R)'],['£','Pound (£)'],['€','Euro (€)'],['KSh','Kenya shilling (KSh)'],['TSh','Tanzania shilling (TSh)'],['USh','Uganda shilling (USh)'],['ZK','Zambian kwacha (ZK)'],['P','Pula (P)'],['₦','Naira (₦)'],['GH₵','Cedi (GH₵)']];
+const validLogo=u=>/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(u)&&u.length<=140000;
+function validateBiz(p){const name=String(p.name||'').trim();if(name.length<2)return'Enter your business name (at least 2 letters)';if(name.length>40)return'Business name is too long (max 40)';
+ const c=String(p.cur||'').trim();if(!c||c.length>5)return'Currency symbol must be 1 to 5 characters';if(!PALETTES[p.color])return'Pick a colour';
+ if(p.upd&&!validRepo(p.upd))return'Updates source must look like owner/repository';if(p.logo&&!validLogo(p.logo))return'Logo image is not valid or too large';if(String(p.footer||'').length>200)return'Receipt message is too long (max 200)';return''}
+function saveBiz(p){let r=S.prof.find(x=>x.id=='biz');if(!r){r={id:'biz'};S.prof.push(r)}Object.assign(r,p,{deleted:false,updatedAt:Date.now(),dirty:true});save();applyBrand()}
+function setBiz(p){if(role!='owner')return'Only the owner can change the business profile';const old=biz(),n={...old,...p},e=validateBiz(n);if(e)return e;
+ const ch=['name','tag','owner','phone','email','address','cur','color','footer','upd'].filter(k=>String(old[k]||'')!==String(n[k]||'')).concat(String(old.logo||'')!==String(n.logo||'')?['logo']:[]);
+ saveBiz({name:n.name.trim(),upd:String(n.upd||'').trim(),tag:String(n.tag||'').trim(),owner:String(n.owner||'').trim(),phone:String(n.phone||'').trim(),email:String(n.email||'').trim(),address:String(n.address||'').trim(),cur:String(n.cur).trim(),color:n.color,logo:n.logo||'',footer:String(n.footer||'').trim(),done:true,skipped:false});
+ if(old.done&&ch.length)logChange('Updated the business profile ('+ch.join(', ')+')',{kind:'profile'});return''}
+function pickLogo(file,done){if(!file)return;const fr=new FileReader();fr.onerror=()=>done('');
+ fr.onload=()=>{const img=new Image();img.onerror=()=>done('');img.onload=()=>{const c=document.createElement('canvas'),N=192;c.width=c.height=N;const x=c.getContext('2d'),m=Math.min(img.width,img.height);x.fillStyle='#fff';x.fillRect(0,0,N,N);x.drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,N,N);done(c.toDataURL('image/jpeg',.85))};img.src=fr.result};fr.readAsDataURL(file)}
+const logoBox=(b,sz)=>`<span class="logo" style="width:${sz}px;height:${sz}px;border-color:var(--bd);background:var(--brand);font-size:${Math.round(sz/2.6)}px">${b.logo?`<img alt="" src="${esc(b.logo)}">`:esc(initials(b.name||'Global Trio').slice(0,2))}</span>`;
+const curOptions=c=>CURRENCIES.map(([v,l])=>`<option value="${esc(v)}" ${c==v?'selected':''}>${esc(l)}</option>`).join('')+`<option value="__x" ${CURRENCIES.some(x=>x[0]==c)?'':'selected'}>Other…</option>`;
+const swatches=sel=>`<div class="sws">${Object.entries(PALETTES).map(([k,v])=>`<button class="sw ${sel==k?'on':''}" data-sw="${k}" title="${v[3]}" style="background:linear-gradient(135deg,${v[0]},${v[1]})"></button>`).join('')}</div>`;
+let bz=null,wiz=null;
+function readFields(map,d){for(const[k,id]of Object.entries(map)){const e=document.querySelector(id);if(e&&e.value!==undefined)d[k]=String(e.value).trim()}
+ const c=document.querySelector('#bz_cur');if(c){const v=String(c.value||'');if(v=='__x'){const x=document.querySelector('#bz_curx');d.cur=((x&&x.value)||'').trim()||d.cur||'$'}else d.cur=v||d.cur||'$'}}
+function wireBrandPicks(d,onChange){document.querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{d.color=b.dataset.sw;setBrandVars(d.color);document.querySelectorAll('[data-sw]').forEach(x=>x.classList.toggle('on',x.dataset.sw==d.color));if(onChange)onChange()})}
+function wireLogo(d,after){const f=document.querySelector('#bz_file');if(f)f.onchange=e=>{const file=(e.target.files||[])[0];pickLogo(file,u=>{if(!u)return toast('Could not read that image');if(!validLogo(u))return toast('That image is too large - try a smaller one');d.logo=u;after()})};
+ onb('#bz_nologo',()=>{d.logo='';after()})}
+const BZ_MAP={name:'#bz_name',tag:'#bz_tag',owner:'#bz_owner',phone:'#bz_phone',email:'#bz_email',address:'#bz_addr',footer:'#bz_footer'};
+function vBiz(){const b0=biz();if(!bz)bz={color:b0.color,logo:b0.logo,f:{}};const b={...b0,...bz.f},d={...b,color:bz.color,logo:bz.logo};
+ $('#v').innerHTML=`<div class="card" style="display:flex;gap:14px;align-items:center">${logoBox(d,64)}<div style="min-width:0"><b style="font-size:18px">${esc(d.name)}</b><div class="mu">${esc(d.tag||'Your tagline appears here')}</div></div></div>
+ <div class="card"><b>Business details</b>
+  <label>Business name</label><input id="bz_name" value="${esc(b.name)}" maxlength="40">
+  <label>Tagline (optional)</label><input id="bz_tag" value="${esc(b.tag)}" maxlength="60" placeholder="e.g. Quality you can trust">
+  <label>Owner / manager name</label><input id="bz_owner" value="${esc(b.owner)}">
+  <div class="row"><div><label>Phone</label><input id="bz_phone" type="tel" value="${esc(b.phone)}"></div><div><label>Email</label><input id="bz_email" type="email" value="${esc(b.email)}" autocapitalize="off"></div></div>
+  <label>Address (optional)</label><input id="bz_addr" value="${esc(b.address)}">
+  <label>Logo</label><input id="bz_file" type="file" accept="image/*">${d.logo?'<button class="sec sm" id="bz_nologo" style="margin-top:8px">Remove logo</button>':''}</div>
+ <div class="card"><b>Money &amp; messages</b>
+  <label>Currency</label><select id="bz_cur">${curOptions(b.cur)}</select><input id="bz_curx" placeholder="Currency symbol, e.g. MK" value="${CURRENCIES.some(x=>x[0]==b.cur)?'':esc(b.cur)}" maxlength="5" style="margin-top:6px">
+  <label>Country code for WhatsApp numbers</label><input id="bz_cc" value="${esc(S.set.cc||'')}" inputmode="numeric" placeholder="e.g. 263">
+  <label>Receipt message (bottom of every receipt)</label><textarea id="bz_footer" rows="2" maxlength="200">${esc(b.footer)}</textarea></div>
+ <div class="card"><b>Brand colour</b>${swatches(d.color)}</div>
+ <button id="bz_save">Save business profile</button>`;
+ wireBrandPicks(bz);wireLogo(bz,()=>{readFields(BZ_MAP,bz.f);vBiz()});
+ onb('#bz_save',()=>{const n={...biz(),color:bz.color,logo:bz.logo};readFields(BZ_MAP,n);const e=setBiz(n);if(e)return toast(e);
+  const cc=document.querySelector('#bz_cc');if(cc){S.set.cc=String(cc.value||'').replace(/\D/g,'');save()}bz=null;toast('Business profile saved ✓');render();autoSync()})}
+function openSetup(){const has=S.prof.some(x=>x.id=='biz'&&!x.deleted);wiz={step:0,d:{...biz(),name:has?biz().name:''},cc:String(S.set.cc||'')};drawSetup()}
+function closeSetup(){wiz=null;const el=document.querySelector('#setup');if(el){el.style.display='none';el.innerHTML=''}applyBrand0()}
+const applyBrand0=()=>{const b=biz();setBrandVars(b.color)};
+function closeSetupIfDone(){if(!wiz)return;const r=S.prof.find(x=>x.id=='biz'&&!x.deleted);if(r&&(r.done||r.skipped)&&!wiz.saving)closeSetup()}
+function maybeSetup(){if(role!='owner'||locked||wiz)return;const r=S.prof.find(x=>x.id=='biz'&&!x.deleted);if(r&&(r.done||r.skipped))return;openSetup()}
+function collectStep(){if(!wiz)return;readFields({name:'#wz_name',tag:'#wz_tag',owner:'#wz_owner',phone:'#wz_phone',email:'#wz_email',address:'#wz_addr',footer:'#wz_footer'},wiz.d);
+ const c=document.querySelector('#wz_cur');if(c){const v=String(c.value||'');if(v=='__x'){const x=document.querySelector('#wz_curx');wiz.d.cur=((x&&x.value)||'').trim()||wiz.d.cur||'$'}else wiz.d.cur=v||wiz.d.cur||'$'}
+ const cc=document.querySelector('#wz_cc');if(cc)wiz.cc=String(cc.value||'').replace(/\D/g,'')}
+function wizNext(){collectStep();if(wiz.step==0&&String(wiz.d.name||'').trim().length<2)return toast('Enter your business name first');wiz.step++;drawSetup()}
+function wizBack(){collectStep();if(wiz.step>0)wiz.step--;drawSetup()}
+function wizFinish(){collectStep();const d=wiz.d;wiz.saving=true;const e=(()=>{const n={...d},v=validateBiz(n);if(v)return v;
+  saveBiz({name:n.name.trim(),tag:String(n.tag||'').trim(),owner:String(n.owner||'').trim(),phone:String(n.phone||'').trim(),email:String(n.email||'').trim(),address:String(n.address||'').trim(),cur:String(n.cur).trim(),color:n.color,logo:n.logo||'',footer:String(n.footer||'').trim(),done:true,skipped:false});return''})();
+ wiz.saving=false;if(e)return toast(e);S.set.cc=wiz.cc||S.set.cc||'';save();closeSetup();toast('Welcome to '+bizName()+'! You are all set ✓');tab='home';render();autoSync()}
+function wizSkip(){wiz.saving=true;saveBiz({skipped:true});wiz.saving=false;closeSetup();toast('You can finish this later in More > Business profile');tab='home';render()}
+function drawSetup(){const el=document.querySelector('#setup');if(!el||!wiz)return;const d=wiz.d,st=wiz.step;el.style.display='block';
+ const dots=`<div class="dots">${[0,1,2].map(i=>`<span class="${i==st?'on':''}"></span>`).join('')}</div>`;
+ const head=(t,sub)=>`<div style="text-align:center;margin-bottom:10px"><div style="display:flex;justify-content:center">${logoBox(d,72)}</div><h2 style="margin:12px 0 4px">${t}</h2><div class="mu" style="font-size:13px">${sub}</div></div>`;
+ let body='';
+ if(st==0)body=head('Welcome! Let\'s set up your business','Two minutes now makes your receipts, reports and screens look professional.')+`<div class="card"><label>Business name *</label><input id="wz_name" value="${esc(d.name)}" maxlength="40" placeholder="e.g. Sunrise Traders"><label>Tagline (optional)</label><input id="wz_tag" value="${esc(d.tag)}" maxlength="60" placeholder="e.g. Quality you can trust"><label>Logo (optional)</label><input id="bz_file" type="file" accept="image/*">${d.logo?'<button class="sec sm" id="bz_nologo" style="margin-top:8px">Remove logo</button>':'<div class="mu" style="margin-top:6px">No logo? Your initials will be used.</div>'}</div>`;
+ if(st==1)body=head('Contact &amp; money','Shown on receipts and used for reminders.')+`<div class="card"><label>Your name (owner / manager)</label><input id="wz_owner" value="${esc(d.owner)}"><div class="row"><div><label>Phone</label><input id="wz_phone" type="tel" value="${esc(d.phone)}"></div><div><label>Email</label><input id="wz_email" type="email" value="${esc(d.email)}" autocapitalize="off"></div></div><label>Address (optional)</label><input id="wz_addr" value="${esc(d.address)}"><label>Currency</label><select id="wz_cur">${curOptions(d.cur)}</select><input id="wz_curx" placeholder="Currency symbol, e.g. MK" value="${CURRENCIES.some(x=>x[0]==d.cur)?'':esc(d.cur)}" maxlength="5" style="margin-top:6px"><label>Country code for WhatsApp (e.g. 263, 1, 44)</label><input id="wz_cc" value="${esc(wiz.cc)}" inputmode="numeric"></div>`;
+ if(st==2)body=head('Make it yours','Pick a colour and a thank-you message for your receipts.')+`<div class="card"><b>Brand colour</b>${swatches(d.color)}<label style="margin-top:14px">Receipt message</label><textarea id="wz_footer" rows="2" maxlength="200">${esc(d.footer)}</textarea></div><div class="hero"><small>Preview</small><div class="big" style="font-size:22px">${esc(d.name||'Your business')}</div><small>${esc(d.tag||'Your tagline')} · ${esc(d.cur)}</small></div>`;
+ el.innerHTML=`<div class="wz">${dots}${body}<div class="row" style="margin-top:6px">${st>0?'<button class="sec" id="wz_back">Back</button>':''}<button id="wz_next">${st==2?'Finish setup':'Next'}</button></div><button class="sec" id="wz_skip" style="background:none;border:0;box-shadow:none;color:var(--mu)">Skip for now</button></div>`;
+ wireBrandPicks(d);wireLogo(d,()=>{collectStep();drawSetup()});
+ onb('#wz_next',()=>st==2?wizFinish():wizNext());onb('#wz_back',wizBack);onb('#wz_skip',wizSkip)}
+
+// ---- App updates: every manager (and staff phone) learns about a new version and can install it in one tap ----
+const APP_BUILD=Number('__BUILD__')||0;                                  // stamped in by the GitHub build
+const UPD_DEFAULT='__UPDATES_REPO__'.indexOf('__')==0?'':'__UPDATES_REPO__';  // ditto: where updates are published
+const validRepo=r=>/^[A-Za-z0-9_.-]{1,39}\/[A-Za-z0-9_.-]{1,100}$/.test(String(r||'').trim());
+function updRepo(){const p=String(biz().upd||'').trim();return validRepo(p)?p:(validRepo(UPD_DEFAULT)?UPD_DEFAULT:'')}
+const verNum=v=>parseInt(String(v||'').replace(/\D/g,''),10)||0;
+const isNewer=u=>!!u&&(verNum(u.version)>verNum(VER)||(verNum(u.version)==verNum(VER)&&(+u.build||0)>APP_BUILD));
+const updPending=()=>!!(S.set.upd&&isNewer(S.set.upd));
+let updState={busy:false,msg:''};
+function parseLatest(j){if(!j||typeof j!='object')return null;const v=String(j.version||''),t=String(j.tag||''),sha=String(j.sha256||'').toLowerCase(),size=+j.size;
+ if(!/^v\d{1,4}$/.test(v)||!/^[A-Za-z0-9._-]{1,60}$/.test(t)||!/^[0-9a-f]{64}$/.test(sha)||!(size>100000&&size<100*1024*1024))return null;
+ return{version:v,build:Math.floor(+j.build)||0,tag:t,sha256:sha,size,notes:String(j.notes||'').slice(0,300),published:String(j.published||'').slice(0,30)}}
+const updDue=()=>S.set.updAuto!==false&&!!updRepo()&&Date.now()-(S.set.updChecked||0)>6*3600*1000;
+async function checkUpdate(manual){const repo=updRepo();
+ if(!repo){if(manual)toast('Set where updates are published first (More > Settings > App updates)');return false}
+ try{const r=await nfetch('https://github.com/'+repo+'/releases/latest/download/latest.json?t='+Date.now(),{headers:{'Cache-Control':'no-cache'}});
+  if(r.status==404){S.set.updChecked=Date.now();save();if(manual)toast('No update has been published yet');return false}
+  if(!r.ok){if(manual)toast(r.status==0?'No internet connection':'Could not check for updates ('+r.status+')');return false}
+  const u=parseLatest(await r.json());if(!u){if(manual)toast('The update information was not valid');return false}
+  S.set.updChecked=Date.now();
+  if(isNewer(u)){S.set.upd=u;const k=u.version+'-'+u.build;
+   if(S.set.updSeen!==k){S.set.updSeen=k;toast('⬆ New version '+u.version+' is ready - tap Update');if(window.Native&&Native.pushNotify)Native.pushNotify('Global Trio update ready','Version '+u.version+' is available. Open the app to install it.')}}
+  else{S.set.upd=null;if(manual)toast('You have the latest version ('+VER+')')}
+  save();drawUpd();return isNewer(u)}
+ catch(e){if(manual)toast('Could not check for updates: '+e.message);return false}}
+function drawUpd(){const el=document.querySelector('#upd');if(!el)return;
+ if(S.set.upd&&!isNewer(S.set.upd)){S.set.upd=null;save()}
+ const u=S.set.upd,sn=S.set.updSnooze,hide=!u||(sn&&u&&sn.k==u.version+'-'+u.build&&Date.now()<sn.until);
+ if(hide){el.style.display='none';el.innerHTML='';return}
+ el.style.display='block';
+ el.innerHTML=`<div class="updbar"><span class="ico">${ic('down',18)}</span><div class="tx"><b>Update ${esc(u.version)} ready</b><div style="font-size:12px;opacity:.92">${esc(updState.busy?updState.msg:(u.notes||'Improvements and fixes'))}</div></div>${updState.busy?'':'<button class="sm" id="updgo" style="background:#fff;color:#111">Update</button><button class="sm sec" id="updlater">Later</button>'}</div>`;
+ onb('#updgo',startUpdate);onb('#updlater',()=>{S.set.updSnooze={k:u.version+'-'+u.build,until:Date.now()+24*3600*1000};save();drawUpd()})}
+function startUpdate(){const u=S.set.upd,repo=updRepo();if(!u||!repo||updState.busy)return;
+ if(!(window.Native&&Native.installUpdate)){toast('Updating works in the Android app only');return}
+ updState={busy:true,msg:'Starting download…'};drawUpd();
+ Native.installUpdate('https://github.com/'+repo+'/releases/download/'+u.tag+'/GlobalTrio.apk',u.sha256,u.size,u.version)}
+window.__updp=pct=>{updState={busy:true,msg:'Downloading '+pct+'%…'};drawUpd()};
+window.__updi=()=>{updState={busy:true,msg:'Confirm the install on the Android screen…'};drawUpd();setTimeout(()=>{if(updState.busy){updState={busy:false,msg:''};drawUpd()}},90000)};
+window.__upd=(ok,msg)=>{updState={busy:false,msg:''};if(!ok)toast(msg||'The update failed');drawUpd()};
+function updCard(){const u=S.set.upd,newer=u&&isNewer(u);
+ return`<div class="card"><b>App updates</b><div class="mu" style="margin:4px 0">You have <b>${esc(VER)}</b>${APP_BUILD?' (build '+APP_BUILD+')':''}. ${newer?'<b>'+esc(u.version)+' is available.</b>':S.set.updChecked?'Up to date as of '+esc(new Date(S.set.updChecked).toLocaleString())+'.':'Not checked yet.'}</div>
+ <label>Where updates are published (GitHub "owner/repository")</label><input id="updrepo" value="${esc(biz().upd||'')}" placeholder="${esc(UPD_DEFAULT||'yourname/globaltrio-updates')}" autocapitalize="off">
+ <div class="mu">Saved in the shared business profile, so all your manager phones pick it up automatically.</div>
+ <label>Check for updates automatically (this phone)</label><select id="updauto"><option value="1">On</option><option value="0" ${S.set.updAuto===false?'selected':''}>Off</option></select>
+ <button class="sec" id="updchk">Check now</button>${newer?'<button id="updinst">Install '+esc(u.version)+' now</button>':''}<button class="sec" id="updsave">Save update settings</button></div>`}
+function bindUpd(){
+ onb('#updchk',async()=>{await checkUpdate(true);render()});onb('#updinst',startUpdate);
+ onb('#updsave',()=>{const repo=String(fv('#updrepo')||'').trim();S.set.updAuto=fv('#updauto')!='0';save();
+  if(repo&&!validRepo(repo))return toast('Use the format owner/repository, for example yourname/globaltrio-updates');
+  const e=setBiz({upd:repo});if(e)return toast(e);toast('Update settings saved');checkUpdate(false).then(()=>render());autoSync()})}
+
+// ---- More menu, expenses, charts ----
+const EXPC=['Transport','Packaging','Shipping','Airtime','Rent','Salaries','Other'];
+function vMore(){
+ const row=(go,i,l,x)=>`<button class="rowbtn" data-go="${go}"><span class="ico">${ic(i,18)}</span><span>${l}${x||''}</span><span class="chev">${ic('chev',16)}</span></button>`;
+ $('#v').innerHTML=`<div class="card" style="padding:12px"><b style="display:block;margin:2px 4px 10px">More</b>
+ ${updPending()?row('set','down','Update available: '+esc(S.set.upd.version)):''}
+ ${row('biz','biz','Business profile')}
+ ${row('prod','box','Products &amp; prices')}
+ ${row('notes','notes','Notepad',openReminders()?' ('+openReminders()+' open reminder'+(openReminders()==1?'':'s')+')':'')}
+ ${row('cats','tag','Categories &amp; subcategories')}
+ ${row('log','bell','Activity &amp; alerts',unreadLog()?' ('+unreadLog()+' new)':'')}
+ ${row('exp','wallet','Expenses')}
+ ${row('sum','chart','Detailed monthly summary')}
+ ${row('set','gear','Settings (storage, sharing, security)')}
+ ${row('priv','lock','Privacy policy')}
+ <button class="rowbtn" id="mbk"><span class="ico">${ic('down',18)}</span><span>Back up to Excel now</span></button>
+ ${hasLock()?`<button class="rowbtn" id="mlk"><span class="ico">${ic('lock',18)}</span><span>Lock the app now</span></button>`:''}</div>
+ <div class="card mu">${esc(bizName())} · version ${VER}</div>`;
+ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{tab=b.dataset.go;render();if(window.scrollTo)window.scrollTo(0,0)});
+ onb('#mbk',()=>autoBackup(true));onb('#mlk',()=>showLock())}
+function vPriv(){const sec=(t,b)=>`<div class="card"><b>${t}</b><div class="mu" style="margin-top:6px;font-size:13.5px;line-height:1.55">${b}</div></div>`;
+ $('#v').innerHTML=`<div class="card"><b style="font-size:18px">Privacy policy</b><div class="mu" style="margin-top:4px">${esc(bizName())} · Global Trio app · Last updated 7 November 2026</div>
+ <div class="mu" style="margin-top:8px">This policy explains what information the Global Trio app keeps, where it is stored and who can see it.</div></div>`+
+ sec('1. Information the app keeps','Sales (date, customer name, phone number, product, quantity, price and payment status), customer payments, products and stock, expenses, notes and reminders, your business profile and logo, product photos taken for shipping sales, and a record of changes with the name of the person who made them.')+
+ sec('2. Where it is stored','Everything is saved on this phone first. It only leaves the phone if you turn on a storage option in Settings: Google Drive, Microsoft OneDrive or your own server. Data then goes to the account or server you choose. We do not run our own servers and do not receive your data.')+
+ sec('3. Camera and photos','The camera is only used when you tap "Take photo" on a shipping sale. A copy of each photo is saved in your phone\'s Pictures/GlobalTrio folder. A smaller copy is kept with the sale. You can remove photos from a sale at any time.')+
+ sec('4. Fingerprint and PIN','Fingerprint checks are done by Android itself. The app never sees or stores your fingerprint. The owner PIN and staff PIN are stored on this phone only.')+
+ sec('5. Sharing','Receipts and reminders are only sent through WhatsApp or SMS when you tap a button to send them. Excel exports and backups are only shared to places you choose.')+
+ sec('6. Notifications and updates','Notifications are used for reminders and alerts inside the app. The app checks GitHub for new versions. No personal data is sent when it does.')+
+ sec('7. What we do not do','No advertising, no tracking or analytics, and your information or your customers\' information is never sold or shared with others.')+
+ sec('8. Your customers','You are responsible for telling your customers that you record their name, phone number and purchases, and for removing their details if they ask.')+
+ sec('9. Deleting your data','Delete individual sales, products or photos inside the app. To remove everything, clear the app\'s storage or uninstall it, and delete any copies in your Google Drive, OneDrive or server.')+
+ sec('10. Contact','Questions about this policy: contact the business owner listed in the Business profile.')+
+ `<button class="sec" id="pbk">Back</button>`;
+ onb('#pbk',()=>{tab=role=='owner'?'more':'sales';render()})}
+
+// ---- "What changed while you were away": shown on login/open and after new data arrives from other phones ----
+function changesSince(){const me=S.set.dev,since=S.set.seenAt||0,out=[],own=role=='owner',m=v=>own?' · '+cur()+f2(v):'';
+ const who=x=>x.by&&x.by!='Unknown'?' by '+x.by:'';
+ const pick=(n,fn)=>(S[n]||[]).filter(x=>x.dev&&x.dev!==me&&(x.updatedAt||0)>since).forEach(x=>{const r=fn(x);if(r)out.push({ts:x.updatedAt,...r})});
+ pick('sales',x=>x.deleted?{i:'🗑️',t:'Sale removed: '+x.customer+' · '+x.product}:{i:'🧾',t:'Sale'+who(x)+': '+x.customer+' · '+x.product+' ×'+x.qty+m(calc(x).rev)+' · '+x.status+((x.photos||[]).length?' · 📷 '+x.photos.length:'')});
+ pick('slog',x=>x.deleted?{i:'↩️',t:'Stock addition undone: '+x.name}:{i:'📦',t:'Stock added: '+x.name+' +'+x.qty});
+ pick('notes',x=>x.deleted?null:{i:'📝',t:'Note'+who(x)+': '+String(x.text||'').slice(0,80)});
+ if(own){pick('products',x=>({i:'🏷️',t:(x.deleted?'Product removed: ':'Product updated: ')+x.name+' ('+x.month+')'}));
+  pick('exps',x=>({i:'💸',t:(x.deleted?'Expense removed: ':'Expense: ')+x.cat+(x.desc?' – '+x.desc:'')+m(x.amt)}));
+  pick('cats',x=>({i:'🗂️',t:'Categories changed'}));pick('prof',x=>({i:'🏢',t:'Business profile updated'}))}
+ (S.alog||[]).filter(l=>!l.deleted&&l.dev!==me&&l.ts>since).forEach(l=>out.push({ts:l.ts,i:l.revoked?'⚠️':'✏️',t:l.text}));
+ return out.sort((a,b)=>b.ts-a.ts)}
+function showChanges(){if(locked||askOpen)return;if(!S.set.seenAt){S.set.seenAt=Date.now();save();return}
+ const L=changesSince();let el=document.querySelector('#wn');if(!L.length){return}
+ if(!el){el=document.createElement('div');el.id='wn';document.body.appendChild(el)}
+ const ago=t=>{const d=Math.round((Date.now()-t)/60000);return d<1?'just now':d<60?d+' min ago':d<1440?Math.round(d/60)+' h ago':new Date(t).toLocaleDateString()};
+ el.innerHTML=`<div class="card"><b style="font-size:17px">🔔 What changed since you were last here</b><div class="mu" style="margin:4px 0 8px">${L.length} update${L.length==1?'':'s'} from your partners</div>
+ ${L.slice(0,40).map(x=>`<div class="wi"><span>${x.i}</span><div><div>${esc(x.t)}</div><div class="mu">${ago(x.ts)}</div></div></div>`).join('')}${L.length>40?`<div class="mu">…and ${L.length-40} more</div>`:''}
+ <button id="wnok">Got it</button></div>`;
+ el.querySelector('#wnok').onclick=()=>{S.set.seenAt=Date.now();save();el.remove()}}
+let expM=MONTHS[new Date().getMonth()];
+function vExp(){
+ const L=live(S.exps).filter(e=>mOf(e.date)==expM&&yOf(e.date)==+S.set.year).sort((a,b)=>b.date.localeCompare(a.date)||b.updatedAt-a.updatedAt);
+ const tot=L.reduce((a,e)=>a+num(e.amt),0),by={};L.forEach(e=>by[e.cat]=(by[e.cat]||0)+num(e.amt));
+ $('#v').innerHTML=`<div class="card"><b>Add expense</b>
+ <label>Date</label><input type="date" id="ed" value="${today()}">
+ <label>Category</label><select id="ec">${EXPC.map(c=>`<option>${c}</option>`).join('')}</select>
+ <label>Description (optional)</label><input id="ee" placeholder="e.g. taxi to supplier">
+ <label>Amount</label><input id="ea" type="number" step="0.01" inputmode="decimal">
+ <button id="eadd">Save expense</button></div>
+ <div class="card"><label>Month</label><select id="em">${MONTHS.map(m=>`<option ${m==expM?'selected':''}>${m}</option>`).join('')}</select>
+ <div style="margin:8px 0"><b>${expM} ${S.set.year}: ${cur()}${f2(tot)}</b></div>
+ <div class="mu" style="margin-bottom:6px">${Object.entries(by).map(([k,v])=>esc(k)+' '+cur()+f2(v)).join(' · ')}</div>
+ ${L.map(e=>`<div class="item"><div><b>${esc(e.cat)}</b>${e.desc?' · '+esc(e.desc):''}<div class="mu">${e.date}</div></div><div style="text-align:right">${cur()}${f2(e.amt)}<br><button class="sec sm" data-xd="${e.id}">Delete</button></div></div>`).join('')||'<div class="mu">No expenses this month.</div>'}</div>`;
+ $('#em').onchange=e=>{expM=e.target.value;render()};
+ $('#eadd').onclick=()=>{const a=num($('#ea').value),d=$('#ed').value;if(a<=0||!d)return toast('Enter the date and amount');
+  S.exps.push({id:uid(),date:d,cat:$('#ec').value,desc:$('#ee').value.trim(),amt:Math.round(a*100)/100,updatedAt:Date.now(),dirty:true});save();expM=mOf(d);toast('Expense saved');render();autoSync()};
+ document.querySelectorAll('[data-xd]').forEach(b=>b.onclick=()=>{const e=S.exps.find(x=>x.id==b.dataset.xd);e.deleted=true;e.updatedAt=Date.now();e.dirty=true;save();render();autoSync()})}
+function barSvg(vals,labels){const W=320,H=150,pad=18,max=Math.max(1,...vals),bw=(W-pad*2)/vals.length;
+ return`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">`+vals.map((v,i)=>{const h=Math.round((v/max)*(H-pad*2-12)),x=pad+i*bw+bw*.15,y=H-pad-h;
+  return`<rect x="${x}" y="${y}" width="${bw*.7}" height="${Math.max(h,v>0?2:0)}" rx="3" style="fill:var(--ac)"/>`+(v>0?`<text x="${x+bw*.35}" y="${y-3}" text-anchor="middle" style="fill:var(--mu);font-size:8px">${Math.round(v)}</text>`:'')+`<text x="${x+bw*.35}" y="${H-5}" text-anchor="middle" style="fill:var(--mu);font-size:9px">${labels[i]}</text>`}).join('')+'</svg>'}
+function hbarSvg(rows){const W=320,rh=26,H=rows.length*rh+4,max=Math.max(1,...rows.map(r=>r.v));
+ return`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">`+rows.map((r,i)=>{const y=i*rh+2,bw=Math.round((r.v/max)*(W-150));
+  return`<text x="0" y="${y+15}" style="fill:var(--tx);font-size:11px">${esc(String(r.l).slice(0,16))}</text><rect x="100" y="${y+3}" width="${Math.max(bw,2)}" height="16" rx="3" style="fill:var(--ac)"/><text x="${104+bw}" y="${y+16}" style="fill:var(--mu);font-size:10px">${r.v}</text>`}).join('')+'</svg>'}
+function bestSellers(){const m={};live(S.sales).filter(s=>yOf(s.date)==+S.set.year).forEach(s=>m[s.product]=(m[s.product]||0)+num(s.qty));return Object.entries(m).map(([l,v])=>({l,v})).sort((a,b)=>b.v-a.v).slice(0,5)}
+
+function vSum(){
+ const{rows,T}=agg(selMonth);
+ const yr=MONTHS.map(m=>({m,...agg(m).T}));const Y=yr.reduce((a,r)=>{for(const k in a)a[k]+=r[k];return a},{cost:0,rev:0,profit:0,credit:0,paid:0,sold:0,exp:0});
+ const line=(n,r)=>`<tr><td>${n}</td><td>${f2(r.cost)}</td><td>${f2(r.rev)}</td><td>${f2(r.profit)}</td><td>${pct(r.profit,r.cost)}</td><td>${f2(r.credit)}</td><td>${f2(r.paid)}</td><td>${f2(r.sold)}</td></tr>`;
+ const hd='<tr><th></th><th>Cost</th><th>Revenue</th><th>Profit</th><th>%</th><th>Credit</th><th>Paid</th><th>Sold profit</th></tr>';
+ $('#v').innerHTML=`<div class="card"><label>Month</label><select id="mo">${MONTHS.map(m=>`<option ${m==selMonth?'selected':''}>${m}</option>`).join('')}</select></div>
+ <div class="card sc"><b>${selMonth} ${S.set.year}</b><table>${hd}${rows.map(r=>line(esc(r.name),r)).join('')}${line('<b>MONTH TOTAL</b>',T)}</table></div>
+ <div class="card sc"><b>Yearly summary ${S.set.year}</b><table>${hd}${yr.filter(r=>r.cost||r.rev||r.credit||r.paid).map(r=>line(r.m,r)).join('')}${line('<b>YEAR TOTAL</b>',Y)}</table>
+ <div class="mu" style="margin-top:8px">Credit/Paid = revenue from sales by payment status. % Profit = Profit ÷ Total Cost. Currency USD.</div></div>
+ <div class="card sc"><b>Profit after expenses</b><table><tr><th></th><th>${selMonth}</th><th>${S.set.year}</th></tr>
+ <tr><td>Profit of items sold</td><td>${f2(T.sold)}</td><td>${f2(Y.sold)}</td></tr>
+ <tr><td>Expenses</td><td>${f2(T.exp)}</td><td>${f2(Y.exp)}</td></tr>
+ <tr><td><b>Net profit</b></td><td><b>${f2(T.sold-T.exp)}</b></td><td><b>${f2(Y.sold-Y.exp)}</b></td></tr></table></div>
+ <div class="card"><b>Sales per month ${S.set.year} ($)</b>${barSvg(yr.map(r=>r.credit+r.paid),MONTHS.map(m=>m.slice(0,3)))}</div>
+ <div class="card"><b>Best sellers ${S.set.year} (units)</b>${bestSellers().length?hbarSvg(bestSellers()):'<div class="mu">No sales yet.</div>'}</div>
+ <div class="card"><button id="shs" style="margin-top:0">Share with OneDrive</button><div class="mu" style="margin-top:6px">Sends this data as Excel to ${esc(SH().to)}</div></div>`;
+ onb('#shs',shareFlow);
+ $('#mo').onchange=e=>{selMonth=e.target.value;render()};
+}
+
+const VER='v16';
+let role='owner';;
+const syncLabel=e=>{const m=String(e&&e.message||e),n=dirtyCount(),b=/No internet|Failed to connect|Unable to resolve|timeout|fetch/i.test(m)?'offline':/Not signed in|expired/i.test(m)?'sign in needed':'sync error - see Settings';return n&&b!='sign in needed'?b+' · '+n+' waiting':b};
+const setErr=m=>{CL().lastErr=m;save()};
+const CL=()=>{S.set.cloud=S.set.cloud||{type:S.set.url?'server':'none'};return S.set.cloud};
+const onb=(id,fn)=>{const e=document.querySelector(id);if(e)e.onclick=fn};
+const fv=id=>{const e=document.querySelector(id);return e?e.value:null};
+function saveSet(){const c=CL();const y=fv('#y');if(y)S.set.year=num(y)||S.set.year;
+ if(fv('#gid')!==null){c.gid=fv('#gid').trim();c.gsecret=fv('#gsec').trim()}
+ if(fv('#mid')!==null)c.msid=fv('#mid').trim();
+ if(fv('#tm')!==null)S.set.theme=fv('#tm');
+ if(fv('#u')!==null){S.set.url=fv('#u').trim().replace(/\/$/,'');S.set.key=fv('#k')}
+ save()}
+function vSet(){
+ const c=CL(),n=TBL().reduce((a,t)=>a+t.filter(x=>x.dirty).length,0),cloud=c.type=='google'||c.type=='microsoft',sg=c.tok&&c.tok.refresh;
+ let h=`<div class="card"><b>Where to store your data</b><label>Store my data in</label><select id="ct">${[['none','Phone only'],['google','Google Drive (Gmail account)'],['microsoft','Microsoft OneDrive (Outlook account)'],['server','My own server']].map(([v,t])=>`<option value="${v}" ${c.type==v?'selected':''}>${t}</option>`).join('')}</select>
+ <label>Financial year</label><input id="y" type="number" value="${S.set.year}">
+ <label>Theme</label><select id="tm">${[['auto','Automatic (follow phone)'],['light','Light'],['dark','Dark']].map(([v,t])=>`<option value="${v}" ${(S.set.theme||'auto')==v?'selected':''}>${t}</option>`).join('')}</select>`;
+ if(c.type=='google')h+=`<div class="mu" style="margin-top:8px">Paste the Client ID and secret from your Google Cloud setup (see README).</div><label>Client ID</label><input id="gid" value="${esc(c.gid||'')}" autocapitalize="off"><div class="mu">${(c.gid||'').length} characters, ends with “…${esc((c.gid||'').slice(-14))}”</div><label>Client secret</label><input id="gsec" type="password" value="${esc(c.gsecret||'')}">`;
+ if(c.type=='microsoft')h+=`<div class="mu" style="margin-top:8px">Paste the Application (client) ID from your Azure app registration (see README).</div><label>Application (client) ID</label><input id="mid" value="${esc(c.msid||'')}" autocapitalize="off">
+`;
+ if(c.type=='server')h+=`<label>Server URL (e.g. https://yourserver.com)</label><input id="u" value="${esc(S.set.url)}" autocapitalize="off"><label>API key</label><input id="k" type="password" value="${esc(S.set.key)}">`;
+ h+=`<button id="sv">Save settings</button>`;
+ if(cloud)h+=`<div class="mu" id="cs" style="margin-top:10px">${sg?'Signed in ✓':c.pending?'Open <b>'+esc(c.pending.url)+'</b> and enter code <b style="font-size:20px">'+esc(c.pending.code)+'</b>. After approving, come back here and tap Finish sign-in.':'Not signed in yet'}</div>${c.lastErr?'<div style="color:var(--bad);font-size:13px;margin-top:8px">Last error: '+esc(c.lastErr)+'</div>':''}${c.pending&&!sg?'<button id="fl">Finish sign-in</button>':''}<button class="sec" id="li">${sg?'Sign in again':'Sign in'}</button>${sg?'<button class="sec" id="lo">Sign out</button>':''}`;
+ if(c.type!='none')h+=`<button class="sec" id="sy">Sync now (${n} pending)</button>`;
+ h+=`</div><div class="card"><b>Data</b><div class="mu">${live(S.sales).length} sales · ${live(S.products).length} products stored on this phone. App version ${VER}.</div><button id="ex">Export to Excel (.xlsx)</button><div class="mu" style="margin-top:6px">Creates an Excel file of all sales, products and summaries, then opens Share so you can send it to OneDrive.</div><button class="sec" id="seed">Import workbook data (Oct 2026)</button></div>`;
+ h+=secCard()+alertCard()+updCard();
+ const sx=SH(),shin=sx.tok&&sx.tok.refresh;
+ h+=`<div class="card"><b>Share with OneDrive</b><div class="mu" style="margin-top:6px">Sends your data as an Excel file into <b>${esc(sx.to)}</b>'s OneDrive, replacing <b>${esc(sx.file)}</b>. The original is copied to a backup file first (once).</div>
+ <label>OneDrive account (email)</label><input id="sto" value="${esc(sx.to)}" autocapitalize="off">
+ <label>Excel file name in OneDrive</label><input id="sfn" value="${esc(sx.file)}" autocapitalize="off">
+ <label>Microsoft Application (client) ID</label><input id="smid" value="${esc(sx.msid||'')}" autocapitalize="off">
+ <div class="mu" id="scs" style="margin-top:8px">${shin?'Signed in ✓ '+esc(sx.who||''):sx.pending?'Open <b>'+esc(sx.pending.url)+'</b> and enter code <b style="font-size:20px">'+esc(sx.pending.code)+'</b>, approve, then come back and tap Finish sign-in.':'Not signed in to Microsoft (only needed for the direct OneDrive options)'}</div>
+ ${sx.err?'<div style="color:var(--bad);font-size:13px;margin-top:8px">Last error: '+esc(sx.err)+'</div>':''}
+ ${sx.pending&&!shin?'<button id="sfl">Finish sign-in</button>':''}
+ <button class="sec" id="sli">${shin?'Sign in again':'Sign in to Microsoft'}</button>${shin?'<button class="sec" id="slo">Sign out</button>':''}
+ <button id="sshare">Share with OneDrive</button>
+ <button class="sec" id="semail">Email Excel to ${esc(sx.to)}</button>
+ <label>Also fill my workbook's own sheets automatically (formulas stay)</label>
+ <select id="sxo"><option value="0" ${sx.xlOn?'':'selected'}>Off</option><option value="1" ${sx.xlOn?'selected':''}>On</option></select>
+ <div class="mu" id="sxm" style="margin-top:6px">${sx.xlOn?(sx.xlErr?'Workbook error: '+esc(sx.xlErr):'On'+(sx.xlLast?' · last write '+esc(sx.xlLast):'')):''}</div>
+ <button class="sec" id="sxu">Update workbook cells now</button>
+ <button class="sec" id="ssv">Save OneDrive settings</button>
+ ${shin?'':'<div class="mu" style="margin-top:6px">No Microsoft ID? "Share with OneDrive" falls back to emailing the file instead.</div>'}</div>`;
+ if(c.type=='server')h+=`<div class="card"><b>OneDrive Excel workbook</b><div class="mu" id="xs" style="margin-top:6px">New sales and products are written into your workbook automatically once linked.</div>
+ <button class="sec" id="xl">Link OneDrive</button><button class="sec" id="xc">Check status</button><button class="sec" id="xa">Send everything to Excel</button></div>`;
+ $('#v').innerHTML=h;bindSec();bindUpd();
+ $('#ct').onchange=e=>{saveSet();c.type=e.target.value;save();render()};
+ onb('#sv',()=>{saveSet();toast('Saved')});
+ onb('#sy',()=>{saveSet();sync(true)});
+ onb('#seed',seed);
+ const tmEl=document.querySelector('#tm');if(tmEl)tmEl.onchange=e=>{S.set.theme=e.target.value;save();applyTheme()};
+ const saveShare=()=>{const z=SH();z.to=(fv('#sto')||z.to).trim();let f=(fv('#sfn')||z.file).trim();if(!/\.xlsx$/i.test(f))f+='.xlsx';z.file=f;z.msid=(fv('#smid')||'').trim();z.xlOn=fv('#sxo')=='1';save()};
+ onb('#ssv',()=>{saveShare();toast('Saved')});
+ onb('#sli',async()=>{saveShare();try{await shLogin()}catch(e){SH().err=e.message;save();toast(e.message);render()}});
+ onb('#sfl',shFinishNow);
+ onb('#slo',()=>{const z=SH();z.tok=null;z.pending=null;z.who='';save();render()});
+ onb('#sshare',()=>{saveShare();shareFlow()});
+ onb('#semail',()=>{saveShare();emailExcel()});
+ onb('#sxu',async()=>{saveShare();const z=SH();if(!(z.tok&&z.tok.refresh))return toast('Sign in to Microsoft first');if(!z.xlOn)return toast('Set "fill my workbook automatically" to On first');
+  try{const n=await excelPush();toast(z.xlErr?'Workbook: '+z.xlErr:'Workbook updated ('+n+' changes)');render()}catch(e){toast(e.message)}});
+ onb('#ex',()=>{try{exportXlsx()}catch(e){toast('Export failed: '+e.message)}});
+ onb('#li',async()=>{saveSet();CL().lastErr='';try{await cloudLogin()}catch(e){setErr(e.message);toast(e.message);render()}});
+ onb('#fl',finishNow);
+ onb('#lo',()=>{c.tok=null;c.pending=null;c.fileId='';save();render()});
+ const call=async(p,m)=>{if(!S.set.url)throw new Error('Set server URL first');const r=await fetch(S.set.url+p,{method:m||'GET',headers:{'x-api-key':S.set.key}});const d=await r.json();if(!r.ok)throw new Error(d.error||r.status);return d};
+ onb('#xl',async()=>{try{const d=await call('/ms/login','POST');$('#xs').innerHTML='On any device open <b>'+d.url+'</b>, enter code <b>'+d.code+'</b>, sign in with the Microsoft account that owns the workbook, then tap Check status.'}catch(e){toast(e.message)}});
+ onb('#xc',async()=>{try{const d=await call('/ms/status');$('#xs').textContent=(d.linked?'Linked ✓':'Not linked yet')+(d.error?' · Error: '+d.error:'')+(d.last?' · Last write: '+d.last:'')}catch(e){toast(e.message)}});
+ onb('#xa',async()=>{try{const d=await call('/ms/pushall','POST');toast('Queued '+d.queued+' items for Excel')}catch(e){toast(e.message)}});
+}
+
+// ---- Google Drive / Microsoft OneDrive storage (signs in with the account itself, no server) ----
+const pend={};let nid=0;
+window.__nr=(id,st,tx)=>{const r=pend[id];if(r){delete pend[id];r({status:st,text:tx})}};
+function nfetch(url,o){o=o||{};return new Promise((res,rej)=>{
+ if(window.Native&&Native.request){const id=String(++nid);
+  pend[id]=r=>res({ok:r.status>=200&&r.status<300,status:r.status,text:async()=>r.text,json:async()=>{try{return JSON.parse(r.text||'{}')}catch(e){return{}}}});
+  Native.request(id,o.method||'GET',url,JSON.stringify(o.headers||{}),o.body||'')}
+ else fetch(url,o).then(r=>res({ok:r.ok,status:r.status,text:()=>r.text(),json:()=>r.json()}),rej)})}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const G={dev:'https://oauth2.googleapis.com/device/code',tok:'https://oauth2.googleapis.com/token',scope:'https://www.googleapis.com/auth/drive.file'};
+const M={dev:'https://login.microsoftonline.com/common/oauth2/v2.0/devicecode',tok:'https://login.microsoftonline.com/common/oauth2/v2.0/token',scope:'Files.ReadWrite offline_access'};
+const prov=()=>CL().type=='google'?G:M;
+const cid=()=>{const c=CL();return c.type=='google'?c.gid:c.msid};
+const form=b=>new URLSearchParams(b).toString();
+async function post(url,b){const r=await nfetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:form(b)});if(r.status==0)throw new Error('No internet connection');return r.json()}
+let loginBusy=false;
+const onSignedIn=()=>{CL().lastErr='';save();toast('Signed in ✓');render();sync(false)};
+async function pollOnce(){const c=CL(),g=c.type=='google',P=prov(),pd=c.pending;if(!pd)return false;
+ if(Date.now()>pd.exp){c.pending=null;save();throw new Error('Sign-in code expired - tap Sign in again')}
+ const t=await post(P.tok,{client_id:cid(),...(g?{client_secret:c.gsecret}:{}),grant_type:'urn:ietf:params:oauth:grant-type:device_code',device_code:pd.dc});
+ if(!c.pending)return false; // another poll already finished the sign-in
+ if(t.access_token){c.tok={access:t.access_token,refresh:t.refresh_token,exp:Date.now()+t.expires_in*1000-60000};c.fileId='';c.pending=null;save();return true}
+ if(t.error=='slow_down'){pd.int=(pd.int||5)+5;save();return false}
+ if(t.error&&t.error!='authorization_pending'){c.pending=null;save();throw new Error(t.error_description||t.error)}
+ return false}
+async function finishLogin(){if(loginBusy)return;loginBusy=true;
+ try{while(CL().pending){if(await pollOnce()){onSignedIn();break}await sleep(((CL().pending||{}).int||5)*1000)}}
+ catch(e){setErr(e.message);toast(e.message);if(tab=='set')render()}
+ loginBusy=false}
+async function kickLogin(){ // called when the app returns to the foreground
+ if(SH().pending&&!shBusy&&!(SH().tok&&SH().tok.refresh))shFinish();
+ const c=CL();if(!c.pending)return;
+ if(!loginBusy){finishLogin();return}
+ try{if(await pollOnce())onSignedIn()}catch(e){}}
+async function finishNow(){try{if(await pollOnce())onSignedIn();else toast('Not approved yet - finish in the browser first')}catch(e){setErr(e.message);toast(e.message);render()}}
+async function cloudLogin(){const c=CL(),g=c.type=='google',P=prov();
+ if(!cid()||(g&&!c.gsecret))throw new Error('Enter and save the client ID'+(g?' and secret':'')+' first');
+ if(g&&!/\.apps\.googleusercontent\.com$/.test(cid()))throw new Error('Client ID looks incomplete - it must end with .apps.googleusercontent.com. Copy it again from Google Cloud.');
+ const d=await post(P.dev,{client_id:cid(),scope:P.scope});
+ if(d.error)throw new Error(d.error_description||d.error);
+ const url=d.verification_url||d.verification_uri,code=d.user_code;
+ c.pending={dc:d.device_code,exp:Date.now()+d.expires_in*1000,int:d.interval||5,url,code};save();
+ render();
+ if(window.Native){try{Native.copy(code);Native.openUrl(url)}catch(e){}}
+ await finishLogin()}
+async function cloudToken(){const c=CL();if(!c.tok||!c.tok.refresh)throw new Error('Not signed in - open Settings');
+ if(c.tok.exp>Date.now())return c.tok.access;
+ const g=c.type=='google',P=prov();
+ const t=await post(P.tok,{client_id:cid(),...(g?{client_secret:c.gsecret}:{scope:P.scope}),grant_type:'refresh_token',refresh_token:c.tok.refresh});
+ if(!t.access_token)throw new Error('Sign-in expired - sign in again in Settings');
+ c.tok={access:t.access_token,refresh:t.refresh_token||c.tok.refresh,exp:Date.now()+t.expires_in*1000-60000};save();return c.tok.access}
+const authH=async()=>({Authorization:'Bearer '+await cloudToken()});
+const apiErr=async r=>{const j=await r.json();const m=j&&j.error&&(j.error.message||j.error);return new Error(r.status==0?'No internet connection':(typeof m=='string'?m:'Cloud error '+r.status))};
+const MURL='https://graph.microsoft.com/v1.0/me/drive/root:/GlobalTrio/data.json:/content';
+async function cloudGet(){const c=CL(),h=await authH();
+ if(c.type=='microsoft'){const r=await nfetch(MURL,{headers:h});if(r.status==404)return null;if(!r.ok)throw await apiErr(r);return JSON.parse(await r.text())}
+ let id=c.fileId;
+ if(!id){const r=await nfetch('https://www.googleapis.com/drive/v3/files?fields=files(id)&q='+encodeURIComponent("name='globaltrio.json' and trashed=false"),{headers:h});if(!r.ok)throw await apiErr(r);const j=await r.json();id=j.files&&j.files[0]&&j.files[0].id;if(id){c.fileId=id;save()}}
+ if(!id)return null;
+ const r=await nfetch('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media',{headers:h});
+ if(r.status==404){c.fileId='';return null}if(!r.ok)throw await apiErr(r);return JSON.parse(await r.text())}
+async function cloudPut(data){const c=CL(),h=await authH(),body=JSON.stringify(data);
+ if(c.type=='microsoft'){const r=await nfetch(MURL,{method:'PUT',headers:{...h,'Content-Type':'application/json'},body});if(!r.ok)throw await apiErr(r);return}
+ if(c.fileId){const r=await nfetch('https://www.googleapis.com/upload/drive/v3/files/'+c.fileId+'?uploadType=media',{method:'POST',headers:{...h,'X-HTTP-Method-Override':'PATCH','Content-Type':'application/json'},body});if(r.ok)return;if(r.status!=404)throw await apiErr(r);c.fileId=''}
+ const bd='gtboundary7',mp=`--${bd}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify({name:'globaltrio.json'})}\r\n--${bd}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${bd}--`;
+ const r=await nfetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{...h,'Content-Type':'multipart/related; boundary='+bd},body:mp});
+ if(!r.ok)throw await apiErr(r);const j=await r.json();c.fileId=j.id;save()}
+
+// ---- Write straight into the OneDrive Excel workbook (Microsoft sign-in only) ----
+const XSEC={'Avroy Shlein Products|Sprays':[13,8],'Avroy Shlein Products|Roll-Ons':[23,8],'Avroy Shlein Products|Perfumes':[33,8],'Inuka Products|Sprays':[46,8],'Inuka Products|Roll-Ons':[56,8],'Inuka Products|Perfumes':[66,8],'Shipping|N/A (Shipping)':[78,10]};
+const xBase=()=>'https://graph.microsoft.com/v1.0/me/drive/root:'+encodeURI('/'+SH().file)+':/workbook';
+async function xg(method,rel,body){const r=await nfetch(xBase()+rel,{method,headers:{...(await shAuth()),'Content-Type':'application/json'},body:body?JSON.stringify(body):''});const j=await r.json();
+ if(!r.ok)throw new Error(r.status==0?'No internet connection':r.status==404?'Workbook not found: /'+SH().file:(j.error&&j.error.message)||'Excel error '+r.status);return j}
+const xr=(sh,a)=>`/worksheets('${encodeURIComponent(sh)}')/range(address='${a}')`;
+const xserial=d=>Math.round(Date.UTC(+d.slice(0,4),+d.slice(5,7)-1,+d.slice(8,10))/864e5)+25569;
+async function xFree(sh,r1,r2,match){const j=await xg('GET',xr(sh,`B${r1}:B${r2}`)+'?$select=values');const v=j.values.map(x=>x[0]);
+ if(match!==undefined){const i=v.indexOf(match);if(i>=0)return r1+i}
+ const i=v.findIndex(x=>x===''||x===null);if(i<0)throw new Error(`No free rows on ${sh} (${r1}-${r2})`);return r1+i}
+const xClear=(sh,a)=>xg('POST',xr(sh,a)+'/clear',{applyTo:'Contents'});
+const xmap=(cat,sub,name)=>cat=='Shipping'&&sub!=='N/A (Shipping)'?{sub:'N/A (Shipping)',name:sub+' - '+name}:{sub,name};
+async function xSale(s,loc){
+ const mp=xmap(s.category,s.sub,s.product);
+ if(!XSEC[s.category+'|'+mp.sub])return{skip:1}; // custom categories are not part of the workbook layout
+ if(loc&&loc.skip)loc=null;
+ const m=parseInt(s.date.slice(5,7))-1,start=7+m*151,end=start+149,sh='Customer Details';
+ if(loc&&(loc.row<start||loc.row>end||s.deleted)){await xClear(sh,`A${loc.row}:H${loc.row}`);loc=null}
+ if(s.deleted)return null;
+ const row=loc?loc.row:await xFree(sh,start,end);
+ await xg('PATCH',xr(sh,`A${row}:H${row}`),{values:[[xserial(s.date),s.customer,s.phone?"'"+s.phone:'',s.category,mp.sub,mp.name,s.qty,s.status]]});
+ return{sheet:sh,row}}
+async function xProd(p,loc){
+ const mp=xmap(p.category,p.sub,p.name),sec=XSEC[p.category+'|'+mp.sub];if(!sec||MONTHS.indexOf(p.month)<0)return{skip:1};
+ if(loc&&loc.skip)loc=null;
+ if(loc&&(loc.sheet!==p.month||p.deleted)){await xClear(loc.sheet,`B${loc.row}:E${loc.row}`);loc=null}
+ if(p.deleted)return null;
+ const row=loc?loc.row:await xFree(p.month,sec[0],sec[0]+sec[1]-1,mp.name);
+ await xg('PATCH',xr(p.month,`B${row}:E${row}`),{values:[[mp.name,p.qty,p.buy,p.sell]]});
+ return{sheet:p.month,row}}
+let xlBusy=false;
+async function excelPush(){const h=SH();if(!h.xlOn||!(h.tok&&h.tok.refresh)||xlBusy)return 0;xlBusy=true;
+ try{const todo=[...S.products.map(r=>[r,xProd]),...S.sales.map(r=>[r,xSale])].filter(([r])=>{const x=S.xl[r.id];return r.deleted?!!x:(!x||(x.v||0)<(r.updatedAt||0))});
+  let n=0;h.xlErr='';
+  for(const[r,fn]of todo){try{const loc=await fn(r,S.xl[r.id]);if(loc)S.xl[r.id]={...loc,v:r.updatedAt||0};else delete S.xl[r.id];n++}catch(e){h.xlErr=e.message;break}}
+  if(n)h.xlLast=new Date().toLocaleString();save();return n}
+ finally{xlBusy=false}}
+
+// ---- Export to a real .xlsx file (no library: tiny zip writer) ----
+const crcT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc32=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=crcT[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+function zipStore(files){const enc=new TextEncoder(),u16=v=>[v&255,v>>8&255],u32=v=>[v&255,v>>8&255,v>>16&255,v>>>24&255];
+ const out=[],cd=[];let off=0;
+ files.forEach(f=>{const n=enc.encode(f.name),d=enc.encode(f.data),crc=crc32(d);
+  const lh=[0x50,0x4b,3,4,...u16(20),...u16(0),...u16(0),...u16(0),...u16(0x21),...u32(crc),...u32(d.length),...u32(d.length),...u16(n.length),...u16(0)];
+  out.push(Uint8Array.from(lh),n,d);
+  cd.push(Uint8Array.from([0x50,0x4b,1,2,...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0x21),...u32(crc),...u32(d.length),...u32(d.length),...u16(n.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(off)]),n);
+  off+=lh.length+n.length+d.length});
+ const cdSize=cd.reduce((a,x)=>a+x.length,0);
+ const end=Uint8Array.from([0x50,0x4b,5,6,...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cdSize),...u32(off),...u16(0)]);
+ const all=[...out,...cd,end],tot=all.reduce((a,x)=>a+x.length,0),r=new Uint8Array(tot);let p=0;all.forEach(x=>{r.set(x,p);p+=x.length});return r}
+const xe=v=>String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const colL=i=>String.fromCharCode(65+i);
+function sheetXml(rows){return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>'+
+ rows.map((r,i)=>`<row r="${i+1}">`+r.map((v,j)=>typeof v=='number'&&isFinite(v)?`<c r="${colL(j)}${i+1}"><v>${v}</v></c>`:`<c r="${colL(j)}${i+1}" t="inlineStr"><is><t>${xe(v==null?'':v)}</t></is></c>`).join('')+'</row>').join('')+'</sheetData></worksheet>'}
+function buildXlsx(sheets){const H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+ const files=[{name:'[Content_Types].xml',data:H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')+'</Types>'},
+  {name:'_rels/.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+  {name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+sheets.map((s,i)=>`<sheet name="${xe(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')+'</sheets></workbook>'},
+  {name:'xl/_rels/workbook.xml.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')+'</Relationships>'},
+  ...sheets.map((s,i)=>({name:`xl/worksheets/sheet${i+1}.xml`,data:sheetXml(s.rows)}))];
+ return zipStore(files)}
+function buildExport(){
+ const sales=live(S.sales).slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const cd=[['Date','Customer','Phone','Category','Sub-category','Product','Qty','Status','Unit price','Revenue','Received','Balance','Profit','Paid on','Recorded by'],...sales.map(s=>{const c=calc(s);return[s.date,s.customer,s.phone||'',s.category,s.sub,s.product,s.qty,s.status,c.sell,c.rev,saleMoney(s).received,saleMoney(s).owed,c.profit,s.paidDate||'',s.by||'']})];
+ const pr=[['Month','Category','Sub-category','Item','Qty bought','Buying price','Selling price','% Profit'],...live(S.products).slice().sort((a,b)=>MONTHS.indexOf(a.month)-MONTHS.indexOf(b.month)).map(p=>[p.month,p.category,p.sub,p.name,p.qty,p.buy,p.sell,p.buy?Math.round((p.sell-p.buy)/p.buy*1000)/10+'%':''])];
+ const sm=[['Month','Total cost','Total revenue','Profit','% Profit','Credit (owing)','Paid up (received)','Profit of items sold','Expenses','Net profit'],...MONTHS.map(m=>({m,...agg(m).T})).filter(r=>r.cost||r.rev||r.credit||r.paid).map(r=>[r.m+' '+S.set.year,r.cost,r.rev,r.profit,pct(r.profit,r.cost),r.credit,r.paid,r.sold,r.exp,r.sold-r.exp])];
+ const pay=[['Date','Customer','Product','Amount'],...sales.flatMap(s=>(s.pays||[]).map(p=>[p.date,s.customer,s.product,p.amt]))];
+ const ex=[['Date','Category','Description','Amount'],...live(S.exps).slice().sort((a,b)=>a.date.localeCompare(b.date)).map(e=>[e.date,e.cat,e.desc||'',e.amt])];
+ const sl=[['Date','Month','Category','Sub-category','Item','Qty added'],...live(S.slog).slice().sort((a,b)=>a.date.localeCompare(b.date)).map(l=>[l.date,l.month,l.category,l.sub,l.name,l.qty])];
+ const al=[['Time','By','Login','Type','Revoked','Change'],...live(S.alog).slice().sort((a,b)=>a.ts-b.ts).map(l=>[new Date(l.ts).toISOString().slice(0,16).replace('T',' '),l.by,l.role||'',l.kind||'category',l.revoked?'YES':'',l.text])];
+ const nt=[['Date','Type','Amount','Note','By','Done'],...live(S.notes).slice().sort((a,b)=>a.date.localeCompare(b.date)).map(n=>[n.date,NTYPES[n.type]||'Note',n.amt===''?'':n.amt,n.text,n.by||'',n.type=='reminder'?(n.done?'yes':'no'):''])];
+ const bytes=buildXlsx([{name:'Customer Details',rows:cd},{name:'Products',rows:pr},{name:'Summary',rows:sm},{name:'Payments',rows:pay},{name:'Expenses',rows:ex},{name:'Stock history',rows:sl},{name:'Activity log',rows:al},{name:'Notepad',rows:nt}]);
+ let bin='';for(let i=0;i<bytes.length;i+=8192)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+8192));
+ const b64=btoa(bin),name='GlobalTrio-'+today()+'.xlsx',mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+ return{bytes,b64,name,mime}}
+function exportXlsx(){const x=buildExport();if(window.Native&&Native.saveFile){Native.saveFile(x.name,x.b64,x.mime);return x.name}
+ const a=document.createElement('a');a.href='data:'+x.mime+';base64,'+x.b64;a.download=x.name;a.click();return x.name}
+
+// ---- Share with OneDrive (signs in as the OneDrive owner, e.g. trio00011@outlook.com) ----
+const SH=()=>{const h=S.set.share=S.set.share||{};h.to=h.to||'trio00011@outlook.com';h.file=h.file||'Global_Trio_Business.xlsx';return h};
+const SHSCOPE='Files.ReadWrite User.Read offline_access';
+let shBusy=false,shArm=0;
+const shAuth=async()=>({Authorization:'Bearer '+await shToken()});
+async function shToken(){const h=SH();if(!h.tok||!h.tok.refresh)throw new Error('Not signed in to Microsoft - open Settings > Share with OneDrive');
+ if(h.tok.exp>Date.now())return h.tok.access;
+ const t=await post(M.tok,{client_id:h.msid,grant_type:'refresh_token',refresh_token:h.tok.refresh,scope:SHSCOPE});
+ if(!t.access_token)throw new Error('Microsoft sign-in expired - sign in again in Settings');
+ h.tok={access:t.access_token,refresh:t.refresh_token||h.tok.refresh,exp:Date.now()+t.expires_in*1000-60000};save();return h.tok.access}
+async function shWho(){try{const r=await nfetch('https://graph.microsoft.com/v1.0/me?$select=mail,userPrincipalName,displayName',{headers:await shAuth()});if(r.ok){const j=await r.json();SH().who=j.mail||j.userPrincipalName||j.displayName||'';save()}}catch(e){}}
+async function shLogin(){const h=SH();if(!h.msid)throw new Error('Enter the Microsoft Application (client) ID first');
+ const d=await post(M.dev,{client_id:h.msid,scope:SHSCOPE});if(d.error)throw new Error(d.error_description||d.error);
+ h.pending={dc:d.device_code,exp:Date.now()+d.expires_in*1000,int:d.interval||5,url:d.verification_uri,code:d.user_code};h.err='';save();render();
+ if(window.Native){try{Native.copy(d.user_code);Native.openUrl(h.pending.url)}catch(e){}}
+ await shFinish()}
+async function shPoll(){const h=SH(),pd=h.pending;if(!pd)return false;
+ if(Date.now()>pd.exp){h.pending=null;save();throw new Error('Sign-in code expired - tap Sign in again')}
+ const t=await post(M.tok,{client_id:h.msid,grant_type:'urn:ietf:params:oauth:grant-type:device_code',device_code:pd.dc});
+ if(!h.pending)return false;
+ if(t.access_token){h.tok={access:t.access_token,refresh:t.refresh_token,exp:Date.now()+t.expires_in*1000-60000};h.pending=null;save();await shWho();return true}
+ if(t.error=='slow_down'){pd.int=(pd.int||5)+5;save();return false}
+ if(t.error&&t.error!='authorization_pending'){h.pending=null;save();throw new Error(t.error_description||t.error)}
+ return false}
+const shDone=()=>{SH().err='';save();toast('OneDrive linked ✓ '+(SH().who||''));if(tab=='set')render()};
+async function shFinish(){if(shBusy)return;shBusy=true;
+ try{while(SH().pending){if(await shPoll()){shDone();break}await sleep(((SH().pending||{}).int||5)*1000)}}
+ catch(e){SH().err=e.message;save();toast(e.message);if(tab=='set')render()}
+ shBusy=false}
+async function shFinishNow(){try{if(await shPoll())shDone();else toast('Not approved yet - finish in the browser first')}catch(e){SH().err=e.message;save();toast(e.message);render()}}
+function emailExcel(){const h=SH(),x=buildExport();
+ if(window.Native&&Native.emailFile){Native.emailFile(x.name,x.b64,x.mime,h.to,'Global Trio data '+today());return}
+ toast('Email sharing works in the Android app only')}
+async function shareExcel(){const h=SH(),tok=await shToken();
+ if(!h.who)await shWho();
+ if(h.who&&h.to&&!h.who.toLowerCase().includes(h.to.toLowerCase()))throw new Error('Signed in as '+h.who+', not '+h.to+'. Sign out and sign in with '+h.to);
+ const hd={Authorization:'Bearer '+tok},item='https://graph.microsoft.com/v1.0/me/drive/root:'+encodeURI('/'+h.file)+':';
+ if(!h.bk){ // keep the original workbook safe: copy it once before the first overwrite
+  const g=await nfetch(item,{headers:hd});
+  if(g.status==404){h.bk=true;save()} // no original exists, nothing to protect
+  else if(!g.ok)throw await apiErr(g); // could not check -> do NOT overwrite
+  else{const bn=h.file.replace(/\.xlsx$/i,'')+'_ORIGINAL_BACKUP.xlsx';
+   const c=await nfetch(item+'/copy',{method:'POST',headers:{...hd,'Content-Type':'application/json'},body:JSON.stringify({name:bn})});
+   if(!(c.status==202||c.ok))throw await apiErr(c);
+   let ok=false;for(let i=0;i<20&&!ok;i++){await sleep(1500);ok=(await nfetch('https://graph.microsoft.com/v1.0/me/drive/root:'+encodeURI('/'+bn),{headers:hd})).ok}
+   if(!ok)throw new Error('Could not confirm the backup copy of '+h.file+' - nothing was replaced');
+   h.bk=true;save()}}
+ const x=buildExport();
+ const r=await nfetch(item+'/content',{method:'PUT',headers:{...hd,'Content-Type':x.mime,'X-GT-Base64':'1'},body:x.b64});
+ if(!r.ok)throw await apiErr(r);
+ h.last=new Date().toLocaleString();h.err='';save()}
+async function shareFlow(){const h=SH();
+ if(!(h.tok&&h.tok.refresh)){toast('OneDrive not linked yet - opening email instead');return emailExcel()}
+ if(Date.now()>shArm){shArm=Date.now()+6000;toast('Tap again within 6 seconds to REPLACE '+h.file+' in '+h.to+' OneDrive');return}
+ shArm=0;toast('Uploading…');
+ try{await shareExcel();toast('Shared ✓ '+h.file+' updated in OneDrive')}catch(e){h.err=e.message;save();toast(e.message)}
+ if(tab=='set')render()}
+function mergeInto(loc,inc){inc.forEach(i=>{const c=loc.find(x=>x.id==i.id);if(!c)loc.push({...i,dirty:false});else if((i.updatedAt||0)>(c.updatedAt||0))Object.assign(c,i,{dirty:false})})}
+const strip=a=>a.map(({dirty,...r})=>r);
+async function cloudMeta(){ // tiny "has the shared file changed?" check, so polling does not download everything
+ try{const c=CL(),h=await authH();
+  if(c.type=='microsoft'){const r=await nfetch('https://graph.microsoft.com/v1.0/me/drive/root:/GlobalTrio/data.json?select=eTag',{headers:h});if(!r.ok)return null;const j=await r.json();return j.eTag||null}
+  if(!c.fileId)return null;const r=await nfetch('https://www.googleapis.com/drive/v3/files/'+c.fileId+'?fields=version,modifiedTime',{headers:h});if(!r.ok)return null;const j=await r.json();return j.version?String(j.version):(j.modifiedTime||null)}
+ catch(e){return null}}
+async function cloudSync(manual){
+ if(!(CL().tok&&CL().tok.refresh)){setSyncLabel('sign in needed');if(manual)toast('Sign in first (Settings > Sign in)');return}
+ if(busy){syncAgain=true;return}busy=true;setSyncLabel('syncing…');let ok=false;
+ try{const c=CL(),dirty0=dirtyCount()>0;
+  const tag=await cloudMeta();   // the shared file's version BEFORE we download (safe: if it moves on, we just download again next time)
+  if(tag&&!manual&&!dirty0&&tag===c.lastTag&&Date.now()-(c.lastFull||0)<600000){await excelPush()}   // nothing changed anywhere: skip the download
+  else{
+   const remote=await cloudGet(),had=!!remote,rm=remote||{};
+   TN.forEach(n=>mergeInto(S[n],rm[n]||[]));applyBrand();checkAlerts();showChanges();
+   Object.entries(rm.xl||{}).forEach(([k,v])=>{if(!S.xl[k]||(v.v||0)>(S.xl[k].v||0))S.xl[k]=v});
+   const xlN=await excelPush();
+   let put=false;
+   if(dirtyCount()>0||!had||xlN>0){const sent=sentSnapshot(TBL()),o={xl:S.xl};TN.forEach(n=>o[n]=strip(S[n]));await cloudPut(o);markSent(sent);put=true}
+   c.lastTag=put?await cloudMeta():tag;c.lastFull=Date.now();save()}
+  ok=true;setSyncLabel(nowLabel());if(manual){toast(SH().xlErr?'Synced, but Excel: '+SH().xlErr:'Synced');render()}
+ }catch(e){setSyncLabel(syncLabel(e));setErr(e.message);if(manual)toast('Sync failed: '+e.message)}
+ afterSync(ok)}
+
+let busy=false;
+async function sync(manual){
+ const ct=CL().type;if(ct=='google'||ct=='microsoft')return cloudSync(manual);
+ if(ct!='server'||!S.set.url){if(manual)toast(ct=='none'?'Choose where to store your data in Settings':'Set server URL and key first');return}
+ if(busy){syncAgain=true;return}busy=true;setSyncLabel('syncing…');let ok=false;
+ try{const dp={};TN.forEach(n=>dp[n]=S[n].filter(x=>x.dirty));const sent=sentSnapshot(TBL());
+  const r=await fetch(S.set.url+'/api/sync',{method:'POST',headers:{'content-type':'application/json','x-api-key':S.set.key},body:JSON.stringify({...dp,since:S.set.since})});
+  if(!r.ok)throw new Error(r.status==401?'Wrong API key':'Server error '+r.status);const d=await r.json();
+  if(S.set.epoch&&d.epoch&&S.set.epoch!==d.epoch){TBL().forEach(a=>a.forEach(x=>x.dirty=true));S.set.since=0;S.set.epoch=d.epoch;save();busy=false;return sync(manual)} // server was reset: re-upload everything
+  S.set.epoch=d.epoch;
+  markSent(sent);
+  const mg=(loc,inc)=>inc.forEach(i=>{const c=loc.find(x=>x.id==i.id);if(!c)loc.push(i);else if((i.updatedAt||0)>(c.updatedAt||0)&&!c.dirty)Object.assign(c,i)});
+  TN.forEach(n=>mg(S[n],d[n]||[]));S.set.since=d.serverTime;applyBrand();checkAlerts();save();showChanges();
+  ok=true;setSyncLabel(nowLabel());if(manual){toast('Synced');render()}
+ }catch(e){setSyncLabel(syncLabel(e));if(manual)toast('Sync failed: '+e.message)}
+ afterSync(ok)}
+// ---- Automatic syncing: pushes every change within about a second, retries on failure, never loses a change made mid-sync ----
+const dirtyCount=()=>TN.reduce((a,n)=>a+S[n].filter(x=>x.dirty).length,0);
+function syncConfigured(){const c=CL();return(c.type=='google'||c.type=='microsoft')?!!(c.tok&&c.tok.refresh):(c.type=='server'&&!!S.set.url)}
+const setSyncLabel=t=>{const l=document.querySelector('#sync');if(l)l.textContent=t};
+const nowLabel=()=>'synced '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+function queueSync(ms){clearTimeout(syncTimer);syncTimer=setTimeout(()=>{sync(false);excelPush().catch(()=>{})},ms==null?600:ms)}
+function autoSync(){if(syncConfigured())setSyncLabel('syncing…');else if(!(SH().xlOn&&SH().tok))setSyncLabel(CL().type=='none'?'saved on phone only':'sign in needed');queueSync()}
+function flushNow(){if(dirtyCount()>0&&syncConfigured())sync(false)}
+function afterSync(ok){busy=false;
+ if(ok){syncFails=0;clearTimeout(retryTimer);if(dirtyCount()>0)queueSync(300)}   // something changed while we were syncing: send it right away
+ else if(dirtyCount()>0){syncFails++;clearTimeout(retryTimer);retryTimer=setTimeout(()=>sync(false),Math.min(300000,10000*Math.pow(2,Math.min(syncFails-1,5))))}}   // offline etc: retry 10s, 20s, 40s ... max 5 min
+const sentSnapshot=lists=>{const m=new Map();lists.forEach(a=>a.forEach(x=>{if(x.dirty)m.set(x,x.updatedAt)}));return m};
+const markSent=m=>m.forEach((u,x)=>{if(x.updatedAt===u)x.dirty=false});
+
+function seed(){ // current contents of the uploaded workbook (October tab + customer rows)
+ const P=[["Avroy Shlein Products","Sprays","Sprays",8,3.5,6],["Avroy Shlein Products","Roll-Ons","Roll-Ons",12,1.39,3],["Avroy Shlein Products","Perfumes","Lotions",2,5.5,8]];
+ P.forEach(([c,s,n,q,b,sl])=>{if(!S.products.some(p=>p.month=='October'&&p.name==n&&p.sub==s&&!p.deleted))S.products.push({id:uid(),month:'October',category:c,sub:s,name:n,qty:q,buy:b,sell:sl,updatedAt:Date.now(),dirty:true})});
+ const C=[["Tinotenda Nhira","Sprays","Paid Up"],["alvin HB5","Sprays","Credit"],["Lovemore HB5","Sprays","Paid Up"],["Pretty Makwangware","Roll-Ons","Paid Up"],["Rejoice","Sprays","Credit"],["Memory","Roll-Ons","Credit"],["Joyful","Roll-Ons","Credit"],["Pester","Roll-Ons","Credit"],["Maam Maswitch","Sprays","Paid Up"],["MAam Maswitch","Roll-Ons","Paid Up"],["Nokutenda Douglas","Sprays","Paid Up"]];
+ C.forEach(([c,s,st])=>S.sales.push({id:uid(),date:S.set.year+'-10-01',customer:c,phone:'',category:'Avroy Shlein Products',sub:s,product:s,qty:1,status:st,sell:0,buy:0,updatedAt:Date.now(),dirty:true}));
+ S.set.year=2026;save();toast('Imported (sale dates set to 1 Oct – edit if needed)');render()}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenAt=Date.now();flushNow();return}kickLogin();if(hasLock()&&!locked&&Date.now()-hiddenAt>=lockDelayMs())showLock();autoBackup();sync(false);if(updDue())checkUpdate(false)});
+setInterval(()=>{if(!document.hidden&&!locked&&!busy)sync(false);if(!document.hidden&&updDue())checkUpdate(false)},45000);window.addEventListener('focus',kickLogin);window.addEventListener('online',()=>sync(false));
+applyTheme();const thb=document.querySelector('#th');if(thb)thb.onclick=()=>{S.set.theme=isDark()?'light':'dark';save();applyTheme();if(tab=='set')render()};
+if(window.matchMedia){try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme)}catch(e){}}
+const lkb=document.querySelector('#lk');if(lkb)lkb.onclick=()=>showLock();
+applyRole();if(role=='owner')tab='home';render();if(hasLock())showLock();else{maybeSetup();showChanges()}if(SH().pending&&!(SH().tok&&SH().tok.refresh))shFinish();
+if(CL().pending&&!(CL().tok&&CL().tok.refresh))finishLogin();else if(CL().type!='none')sync(false);
+autoBackup();
+setTimeout(()=>{if(updDue())checkUpdate(false)},4000);
+syncReady=true;
+</script></body></html>

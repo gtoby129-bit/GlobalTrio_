@@ -1,0 +1,1 @@
+Managers now get app updates automatically, plus a modern look, Home dashboard and business setup.
