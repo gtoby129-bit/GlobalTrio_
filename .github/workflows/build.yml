@@ -1,0 +1,231 @@
+name: Build Global Trio APK
+
+# Runs every time you upload / commit to the repository, and whenever you press
+# "Run workflow" on the Actions tab. The finished APK appears at the bottom of the run page.
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'server/**'
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Also publish the APK as a GitHub Release (easiest way to download it on a phone)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # only used to publish a Release when you ask for one
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Optional - only needed if you want your managers' phones to be told about new versions.
+      # UPDATES_REPO (a Variable) = "yourname/globaltrio-updates", UPDATES_TOKEN (a Secret) = a token that can write to it.
+      UPDATES_REPO: ${{ vars.UPDATES_REPO }}
+      UPDATES_TOKEN: ${{ secrets.UPDATES_TOKEN }}
+
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      # Catches the common upload mistakes (files dropped into the wrong folder, wrong build.gradle)
+      # and says exactly what is wrong, instead of a confusing Gradle error.
+      - name: Check the project is laid out correctly
+        shell: bash
+        run: |
+          err=0
+          fail() { echo "::error title=Project layout::$1"; err=1; }
+          need() { [ -f "$1" ] || fail "Missing file: $1  - upload the project folders again (drag the TOP-LEVEL items from the unzipped folder, do not open 'app')."; }
+
+          need settings.gradle
+          need build.gradle
+          need gradle.properties
+          need app/build.gradle
+          need app/debug.keystore
+          need app/src/main/AndroidManifest.xml
+          need app/src/main/assets/index.html
+          need app/src/main/java/com/globaltrio/app/MainActivity.java
+          need app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+
+          if [ -f build.gradle ] && ! grep -q "apply false" build.gradle; then
+            fail "The top-level build.gradle is wrong (it looks like the app's file). Replace its whole content with this single line:  plugins { id 'com.android.application' version '8.3.2' apply false }"
+          fi
+          if [ -f app/build.gradle ]; then
+            grep -q "applicationId" app/build.gradle || fail "app/build.gradle looks wrong: it has no applicationId. Re-upload app/build.gradle from the project zip."
+            grep -q "okhttp" app/build.gradle || fail "app/build.gradle is missing the okhttp line. Re-upload app/build.gradle from the project zip."
+          fi
+
+          for f in MainActivity.java AndroidManifest.xml index.html; do
+            [ -f "$f" ] && echo "::warning title=Stray file::'$f' sits at the top level of the repository. It is ignored (the real one is inside app/...) and can be deleted."
+          done
+
+          [ "$err" = 0 ] || exit 1
+          echo "Project layout looks good."
+
+      - name: Check the app's JavaScript for mistakes
+        shell: bash
+        run: |
+          node --version
+          node -e "
+            const fs=require('fs');
+            const html=fs.readFileSync('app/src/main/assets/index.html','utf8');
+            const m=html.match(/<script>([\s\S]*)<\/script>/);
+            if(!m){console.error('No <script> block found in index.html');process.exit(1)}
+            fs.writeFileSync('/tmp/app.js',m[1]);
+          "
+          node --check /tmp/app.js
+          echo "JavaScript syntax is valid."
+
+      - name: Read the app version
+        shell: bash
+        run: |
+          VER=$(grep -o "VER='v[0-9]*'" app/src/main/assets/index.html | head -1 | cut -d"'" -f2)
+          [ -n "$VER" ] || VER=v0
+          echo "VER=$VER" >> "$GITHUB_ENV"
+          echo "App version: $VER"
+
+      # Puts this build's number and the updates location inside the app, so every phone
+      # knows which version it is and where to look for newer ones.
+      - name: Stamp build number and update source into the app
+        shell: bash
+        run: |
+          BUILD=${{ github.run_number }}
+          REPO="${UPDATES_REPO:-}"
+          if [ -n "$REPO" ] && ! echo "$REPO" | grep -Eq '^[A-Za-z0-9_.-]{1,39}/[A-Za-z0-9_.-]{1,100}$'; then
+            echo "::warning title=UPDATES_REPO::'$REPO' is not in the form owner/repository, so app updates will not be configured."
+            REPO=""
+          fi
+          sed -i "s#__BUILD__#${BUILD}#g; s#__UPDATES_REPO__#${REPO}#g" app/src/main/assets/index.html
+          node -e "
+            const fs=require('fs');
+            const m=fs.readFileSync('app/src/main/assets/index.html','utf8').match(/<script>([\s\S]*)<\/script>/);
+            if(!m){console.error('No <script> block found');process.exit(1)}
+            fs.writeFileSync('/tmp/app2.js',m[1]);
+          "
+          node --check /tmp/app2.js
+          echo "Stamped build ${BUILD}; update source: ${REPO:-none}"
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle 8.7 (with build cache)
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.7
+
+      - name: Build the APK
+        run: gradle assembleDebug --stacktrace
+
+      - name: Name and verify the APK
+        shell: bash
+        run: |
+          SRC=app/build/outputs/apk/debug/app-debug.apk
+          if [ ! -f "$SRC" ]; then
+            echo "::error::The build finished but no APK was produced."
+            exit 1
+          fi
+          APK="GlobalTrio-${VER}-build${{ github.run_number }}.apk"
+          cp "$SRC" "$APK"
+          echo "APK=$APK" >> "$GITHUB_ENV"
+
+          SIZE=$(du -h "$APK" | cut -f1)
+          SHA=$(sha256sum "$APK" | cut -d' ' -f1)
+
+          # The signing fingerprint must be the SAME on every build, otherwise Android refuses to
+          # install an update over the old app (and the phone's data would have to be erased).
+          CERT=""
+          BT=$(ls -d "${ANDROID_HOME:-/nonexistent}"/build-tools/* 2>/dev/null | sort -V | tail -1 || true)
+          if [ -n "$BT" ] && [ -x "$BT/apksigner" ]; then
+            CERT=$("$BT/apksigner" verify --print-certs "$APK" 2>/dev/null | grep -i "SHA-256" | head -1 | sed 's/.*: //' || true)
+          fi
+
+          {
+            echo "## Global Trio ${VER} - build ${{ github.run_number }}"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| APK | \`$APK\` |"
+            echo "| Size | $SIZE |"
+            echo "| SHA-256 | \`$SHA\` |"
+            [ -n "$CERT" ] && echo "| Signing certificate | \`$CERT\` |"
+            echo ""
+            echo "**Install:** download the artifact below (or the Release, if you published one), unzip if needed, send the .apk to your phone and tap it."
+            echo ""
+            echo "If the signing certificate above is the same as your last build, the new APK installs **over** the old app and keeps all your data."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Built $APK ($SIZE)"
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: GlobalTrio-${{ env.VER }}-build${{ github.run_number }}
+          path: ${{ env.APK }}
+          if-no-files-found: error
+          retention-days: 30
+
+      # Tells your managers' phones there is a new version: publishes the APK plus a tiny latest.json
+      # to the (public) updates repository. Their apps check it, show an "Update ready" banner and
+      # install it with one tap. Skipped silently if UPDATES_REPO / UPDATES_TOKEN are not set up.
+      - name: Publish the update for your managers
+        if: env.UPDATES_TOKEN != '' && env.UPDATES_REPO != ''
+        env:
+          GH_TOKEN: ${{ secrets.UPDATES_TOKEN }}
+        shell: bash
+        run: |
+          set -e
+          RUN=${{ github.run_number }}
+          TAG="${VER}-build${RUN}"
+          cp "$APK" GlobalTrio.apk
+          NOTES="Improvements and fixes"
+          if [ -s release-notes.txt ]; then NOTES=$(head -c 200 release-notes.txt | tr '\n' ' '); fi
+          export TAG NOTES BUILD="$RUN"
+          python3 - <<'PY'
+          import json, os, hashlib, datetime
+          data = open('GlobalTrio.apk', 'rb').read()
+          info = {
+              'version': os.environ['VER'],
+              'tag': os.environ['TAG'],
+              'build': int(os.environ['BUILD']),
+              'sha256': hashlib.sha256(data).hexdigest(),
+              'size': len(data),
+              'notes': os.environ['NOTES'].strip(),
+              'published': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+          }
+          json.dump(info, open('latest.json', 'w'))
+          print(json.dumps(info))
+          PY
+          gh release create "$TAG" GlobalTrio.apk latest.json --repo "$UPDATES_REPO" --latest \
+            --title "Global Trio ${VER} (build ${RUN})" --notes "$NOTES" \
+            || gh release upload "$TAG" GlobalTrio.apk latest.json --clobber --repo "$UPDATES_REPO"
+          {
+            echo ""
+            echo "**Update published** to \`$UPDATES_REPO\` as \`$TAG\`. Managers' phones will show the update banner when they next check (within about 6 hours, or straight away when they open the app and tap Check now)."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Optional: tick "publish_release" when you press "Run workflow".
+      # A Release gives you a plain .apk link you can open straight from your phone's browser.
+      - name: Publish a Release
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          TAG="${VER}-build${{ github.run_number }}"
+          gh release create "$TAG" "$APK" \
+            --title "Global Trio ${VER} (build ${{ github.run_number }})" \
+            --notes "Debug-signed APK. Install it over the existing app to keep your data." \
+            --repo "${{ github.repository }}"
+          echo "Release published: $TAG" >> "$GITHUB_STEP_SUMMARY"
